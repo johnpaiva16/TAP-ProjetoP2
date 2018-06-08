@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
-import static java.util.Collections.list;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,38 +19,33 @@ public class GenericDAO<T> {
 
     public void save(T obj) {
         if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            if (obj instanceof Cliente) {
-                emf = Persistence.createEntityManagerFactory("cliente");
-                em = emf.createEntityManager();
-            } else if (obj instanceof Fornecedor) {
-                emf = Persistence.createEntityManagerFactory("fornecedor");
-                em = emf.createEntityManager();
-            }
-            em.getTransaction().begin();
-            em.persist(obj);
-            em.getTransaction().commit();
-            em.close();
+            saveHibernate(obj);
         } else {
+
         }
     }
 
     public void update(T obj) {
         if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            if (obj instanceof Cliente) {
-                emf = Persistence.createEntityManagerFactory("cliente");
-                em = emf.createEntityManager();
-            } else if (obj instanceof Fornecedor) {
-                emf = Persistence.createEntityManagerFactory("fornecedor");
-                em = emf.createEntityManager();
-            }
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-            em.close();
+            saveHibernate(obj);
         } else {
         }
     }
-    
+
+    private void saveHibernate(T obj) {
+        if (obj instanceof Cliente) {
+            emf = Persistence.createEntityManagerFactory("cliente");
+            em = emf.createEntityManager();
+        } else if (obj instanceof Fornecedor) {
+            emf = Persistence.createEntityManagerFactory("fornecedor");
+            em = emf.createEntityManager();
+        }
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+        em.close();
+    }
+
     public List<T> listAll(String tableName) {
         List<T> list = null;
         String sql = "";
@@ -64,7 +53,7 @@ public class GenericDAO<T> {
             emf = Persistence.createEntityManagerFactory("cliente");
             em = emf.createEntityManager();
             em.getTransaction().begin();
-            
+
             if (tableName.equals("cliente")) {
                 sql = "SELECT cliente FROM Cliente cliente";
                 Query q = em.createQuery(sql);
@@ -76,4 +65,24 @@ public class GenericDAO<T> {
         return list;
     }
 
+    public void delete(T obj) {
+        String sql = "";
+        if (obj instanceof Cliente || obj instanceof Fornecedor) {
+
+            if (obj instanceof Cliente) {
+                Cliente cliente = (Cliente) obj;
+                emf = Persistence.createEntityManagerFactory("cliente");
+                em = emf.createEntityManager();
+                em.getTransaction().begin();
+                sql = "DELETE cliente FROM cliente WHERE cod =" + ((Cliente) obj).getCod();
+                Query q = em.createQuery(sql);
+                q.executeUpdate();
+            }
+            em.getTransaction().commit();
+            em.close();
+        } else {
+
+        }
+
+    }
 }

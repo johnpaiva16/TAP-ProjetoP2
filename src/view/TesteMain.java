@@ -23,6 +23,7 @@ public class TesteMain {
         c.setCpf("12344343");
         c.setRg("1212124");
         
-        dao.update(c);
+        dao.delete(c);
+        
     }
 }
