@@ -74,8 +74,8 @@ public class GenericDAO<T> {
                 emf = Persistence.createEntityManagerFactory("cliente");
                 em = emf.createEntityManager();
                 em.getTransaction().begin();
-                sql = "DELETE cliente FROM cliente WHERE cod =" + ((Cliente) obj).getCod();
-                Query q = em.createQuery(sql);
+                sql = "DELETE cliente FROM cliente WHERE cod = " + ((Cliente) obj).getCod();
+                Query q = em.createNativeQuery(sql);
                 q.executeUpdate();
             }
             em.getTransaction().commit();
