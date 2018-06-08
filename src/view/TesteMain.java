@@ -1,18 +1,19 @@
 package view;
 
-import controller.ClienteController;
-import dao.GenericDAO;
-import java.util.List;
-import model.Cliente;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
 
 /**
  *
  * @author jesp
  */
-public class TesteMain {
+public class TesteMain extends Application {
 
     public static void main(String[] args) {
-        GenericDAO dao = new GenericDAO();
+        launch(args);
+        /*GenericDAO dao = new GenericDAO();
         ClienteController cc = new ClienteController();
         Cliente c = new Cliente();
 
@@ -29,7 +30,13 @@ public class TesteMain {
         for (Cliente cl : l) {
             System.out.println(cl.getCod() + " | " + cl.getNome());
 
-        }
+        } */
+
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 
     }
 }
