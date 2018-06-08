@@ -14,4 +14,10 @@ public class ClienteController {
             dao.save(c);
         }
     }
+    public void updateClient(Cliente c){
+        if(Utils.validaCpf(c.getCpf())){
+            GenericDAO dao = new GenericDAO();
+            dao.update(c);
+        }
+    }
 }

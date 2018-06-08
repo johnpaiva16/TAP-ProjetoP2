@@ -19,7 +19,7 @@ public class GenericDAO<T> {
 
     public void save(T obj) {
         if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            saveHibernate(obj);
+            saveWithHibernate(obj);
         } else {
 
         }
@@ -27,23 +27,19 @@ public class GenericDAO<T> {
 
     public void update(T obj) {
         if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            saveHibernate(obj);
+            saveWithHibernate(obj);
         } else {
         }
     }
 
-    private void saveHibernate(T obj) {
-        if (obj instanceof Cliente) {
-            emf = Persistence.createEntityManagerFactory("cliente");
-            em = emf.createEntityManager();
-        } else if (obj instanceof Fornecedor) {
-            emf = Persistence.createEntityManagerFactory("fornecedor");
-            em = emf.createEntityManager();
-        }
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
-        em.close();
+    private void saveWithHibernate(T obj) {
+       initEMF(obj);
+       em = emf.createEntityManager(); 
+       em.getTransaction().begin();
+       em.merge(obj);
+       em.getTransaction().commit();
+       em.close();
+       
     }
 
     public List<T> listAll(String tableName) {
@@ -51,14 +47,13 @@ public class GenericDAO<T> {
         String sql = "";
         if (tableName.equals("cliente") || tableName.equals("fornecedor")) {
 
-            if (tableName.equals("cliente")) {
                 emf = Persistence.createEntityManagerFactory("cliente");
                 em = emf.createEntityManager();
                 em.getTransaction().begin();
                 sql = "SELECT cliente FROM Cliente cliente";
                 Query q = em.createQuery(sql);
                 list = q.getResultList();
-            }
+            
             em.getTransaction().commit();
             em.close();
         }
@@ -84,5 +79,9 @@ public class GenericDAO<T> {
 
         }
 
+    }
+    private void initEMF (T obj){
+       String entity = (obj.getClass().getName());
+       emf = Persistence.createEntityManagerFactory((entity.substring(entity.lastIndexOf('.')+1)).toLowerCase());
     }
 }
