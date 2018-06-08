@@ -50,11 +50,11 @@ public class GenericDAO<T> {
         List<T> list = null;
         String sql = "";
         if (tableName.equals("cliente") || tableName.equals("fornecedor")) {
-            emf = Persistence.createEntityManagerFactory("cliente");
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
 
             if (tableName.equals("cliente")) {
+                emf = Persistence.createEntityManagerFactory("cliente");
+                em = emf.createEntityManager();
+                em.getTransaction().begin();
                 sql = "SELECT cliente FROM Cliente cliente";
                 Query q = em.createQuery(sql);
                 list = q.getResultList();
