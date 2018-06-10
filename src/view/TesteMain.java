@@ -22,15 +22,16 @@ public class TesteMain extends Application {
         Cliente c = new Cliente();
 
         c.setCod(1);
-        c.setNome("John Ewerton");
+        c.setNome("John");
         c.setCpf("09612582416");
         c.setRg("12124");
 
+       cc.deleteClient(c);
         //cc.saveClient(c);
         //cc.updateClient(c);
         //dao.save(c);
         //dao.update(c);
-        dao.delete(c);
+        //dao.delete(c);
         /*List<Cliente> l = dao.listAll("cliente");
         for (Cliente cl : l) {
             System.out.println(cl.getCod() + " | " + cl.getNome());
