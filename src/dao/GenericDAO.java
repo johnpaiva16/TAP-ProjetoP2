@@ -61,16 +61,12 @@ public class GenericDAO<T> {
     }
 
     public void delete(T obj) {
-        String sql = "";
         if (obj instanceof Cliente || obj instanceof Fornecedor) {
             initEMF(obj);
-            if (obj instanceof Cliente) {
-                em = emf.createEntityManager();
-                em.getTransaction().begin();
-                sql = "DELETE cliente FROM cliente WHERE cod = " + ((Cliente) obj).getCod();
-                Query q = em.createNativeQuery(sql);
-                q.executeUpdate();
-            }
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query q = em.createNativeQuery(returnSQLDelete(obj));
+            q.executeUpdate();
             em.getTransaction().commit();
             em.close();
         } else {
@@ -82,5 +78,12 @@ public class GenericDAO<T> {
     private void initEMF(T obj) {
         String entity = (obj.getClass().getName());
         emf = Persistence.createEntityManagerFactory((entity.substring(entity.lastIndexOf('.') + 1)).toLowerCase());
+    }
+
+    private String returnSQLDelete(T obj) {
+        if (obj instanceof Cliente) {
+            return "DELETE cliente FROM cliente WHERE cod = " + ((Cliente) obj).getCod();
+        }
+        return null;
     }
 }

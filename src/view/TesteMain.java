@@ -21,13 +21,13 @@ public class TesteMain extends Application {
         ClienteController cc = new ClienteController();
         Cliente c = new Cliente();
 
-        c.setCod(1);
+        c.setCod(2);
         c.setNome("John");
         c.setCpf("09612582416");
         c.setRg("12124");
 
        cc.deleteClient(c);
-        //cc.saveClient(c);
+       // cc.saveClient(c);
         //cc.updateClient(c);
         //dao.save(c);
         //dao.update(c);
