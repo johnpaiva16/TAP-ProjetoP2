@@ -1,42 +1,51 @@
-
 package model;
 
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 /**
  *
  * @author jesp
  */
 @Entity
-public class Cliente {
-    
+@Table(name = "cliente")
+public class Cliente{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int cod;
-    @Column(nullable = false) 
+    @Column
     private String nome;
-    @Column(nullable = false)
+    @Column
     private String cpf;
-    @Column(nullable = false)
+    @Column
     private String rg;
-    @Column(nullable = true)
+    @Column
     private String dataNascimento;
-    @Column(nullable = true)
+    @Column
     private String sexo;
-    @Column(nullable = true)
+    @Column
     private String telefone;
-    @Column(nullable = true)
+    @Column
     private String celular;
-    @Column(nullable = true)
+    @Column
     private String email;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
 
-    
-    
+    public Cliente() {
+
+    }
+
     public int getCod() {
         return cod;
     }
@@ -108,6 +117,38 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + this.cod;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (this.cod != other.cod) {
+            return false;
+        }
+        return true;
+    }
+
 }
