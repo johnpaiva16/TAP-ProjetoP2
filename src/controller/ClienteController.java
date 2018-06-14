@@ -7,8 +7,13 @@ import util.Utils;
 
 public class ClienteController {
 
-    private GenericDAO dao = new GenericDAO();
-    private final String TABLE_NAME = "cliente";
+    private final GenericDAO dao;
+    private final String TABLE_NAME;
+
+    public ClienteController() {
+        dao= new GenericDAO();
+        this.TABLE_NAME = "cliente";
+    }
 
     public void saveClient(Cliente c) {
         if (Utils.validaCpf(c.getCpf())) {
@@ -16,17 +21,25 @@ public class ClienteController {
         }
     }
 
-    public void updateClient(Cliente c) {
-        if (Utils.validaCpf(c.getCpf())) {
-            dao.update(c);
+    public Cliente updateClient(Cliente c) {
+        if (c.getCod() != 0 && c.getEndereco().getCod() != 0) {
+            return (Cliente) dao.update(c);
         }
+        return null;
     }
 
-    public List<Cliente> listAllClient() {
-        return (List<Cliente>) dao.listAll(TABLE_NAME);
+    public List<Cliente> findAllClients() {
+        return (List<Cliente>) dao.findAll(TABLE_NAME);
     }
 
-    public void deleteClient(Cliente c) {
+    public Cliente findClientByCod(int id) {
+        return (Cliente) dao.findByCod(id);
+
+    }
+
+    public void deleteClient(int id) {
+        Cliente c = findClientByCod(id);
+        System.out.println(c.getCod() + " | " + c.getEndereco().getCep());
         dao.delete(c);
     }
 }
