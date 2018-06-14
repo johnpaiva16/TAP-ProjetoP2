@@ -1,6 +1,5 @@
 package model;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cliente")
-public class Cliente{
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,17 +27,11 @@ public class Cliente{
     @Column
     private String cpf;
     @Column
-    private String rg;
-    @Column
     private String dataNascimento;
     @Column
     private String sexo;
     @Column
     private String telefone;
-    @Column
-    private String celular;
-    @Column
-    private String email;
     @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
 
@@ -70,14 +63,6 @@ public class Cliente{
         this.cpf = cpf;
     }
 
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
     public String getDataNascimento() {
         return dataNascimento;
     }
@@ -100,22 +85,6 @@ public class Cliente{
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Endereco getEndereco() {

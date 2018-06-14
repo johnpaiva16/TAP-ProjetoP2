@@ -29,7 +29,7 @@ public class ClienteController {
     }
 
     public List<Cliente> findAllClients() {
-        return (List<Cliente>) dao.findAll(TABLE_NAME);
+        return dao.findAll(TABLE_NAME);
     }
 
     public Cliente findClientByCod(int id) {
@@ -39,7 +39,6 @@ public class ClienteController {
 
     public void deleteClient(int id) {
         Cliente c = findClientByCod(id);
-        System.out.println(c.getCod() + " | " + c.getEndereco().getCep());
         dao.delete(c);
     }
 }
