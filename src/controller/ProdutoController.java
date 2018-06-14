@@ -24,24 +24,24 @@ public class ProdutoController {
         this.TABLE_NAME = "produto";
     }
     
-    public Produto saveFornecedor(Produto p){
-      if (p.getCod() != 0) {
+    public Produto saveProduto(Produto p){
+     
         return  (Produto) dao.save(p);
-      }
-      return null;
+     
+     
     }
-    public Produto updateFornecedor(Produto fornecedor){
+    public Produto updateProduto(Produto fornecedor){
        return (Produto) dao.update(fornecedor);
     }
-    public List<Produto> findAllFornecedores(){
+    public List<Produto> findAllProdutos(){
         return dao.findAll(TABLE_NAME);
     }
-      public Produto findFornecedorByCod(int id) {
+      public Produto findProdutoByCod(int id) {
         return (Produto) dao.findByCod(id);
 
     }
-    public void deleteFornecedor(int id) {
-        Produto p = findFornecedorByCod(id);
+    public void deleteProduto(int id) {
+        Produto p = findProdutoByCod(id);
         dao.delete(p);
     }
 }
