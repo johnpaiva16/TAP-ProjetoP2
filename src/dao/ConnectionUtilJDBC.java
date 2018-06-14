@@ -7,7 +7,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-public class ConnectionUtil {
+public class ConnectionUtilJDBC {
 
 	public static Connection getConnection() {
 		Properties properties = new Properties();

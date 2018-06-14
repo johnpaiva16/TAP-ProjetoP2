@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,76 +15,104 @@ import model.Fornecedor;
  */
 public class GenericDAO<T> {
 
-    EntityManagerFactory emf;
-    EntityManager em;
+    protected EntityManagerFactory emf;
+    protected EntityManager em;
 
-    public void save(T obj) {
-        if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            saveWithHibernate(obj);
-        } else {
-
-        }
-    }
-
-    public void update(T obj) {
-        if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            saveWithHibernate(obj);
-        } else {
-        }
-    }
-
-    private void saveWithHibernate(T obj) {
-        initEMF(obj);
+    private void loadEM() {
+        emf = Persistence.createEntityManagerFactory("farmaciaPU");
         em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
-        em.close();
-
     }
 
-    public List<T> listAll(String tableName) {
+    public T save(T obj) {
+        if (obj instanceof Cliente || obj instanceof Fornecedor) {
+            saveWithHibernate(obj);
+        } else {
+
+        }
+        return obj;
+    }
+
+    public T update(T obj) {
+        if (obj instanceof Cliente || obj instanceof Fornecedor) {
+            saveWithHibernate(obj);
+        } else {
+        }
+        return obj;
+    }
+
+    private T saveWithHibernate(T obj) {
+        try {
+            loadEM();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return obj;
+    }
+
+    public List<T> findAll(String tableName) {
+        tableName = tableName.toLowerCase();
         List<T> list = null;
         String sql = "";
-        if (tableName.toLowerCase().equals("cliente") || tableName.toLowerCase().equals("fornecedor")) {
 
-            emf = Persistence.createEntityManagerFactory("cliente");
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            sql = "SELECT cliente FROM Cliente cliente";
-            Query q = em.createQuery(sql);
-            list = q.getResultList();
-
-            em.getTransaction().commit();
-            em.close();
+        if (tableName.equals("cliente") || tableName.equals("fornecedor")) {
+            try {
+                loadEM();
+                sql = "SELECT " + tableName + " FROM " + StringUtils.capitalize(tableName) + " " + tableName;
+                Query q = em.createQuery(sql);
+                list = q.getResultList();
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                em.close();
+            }
         }
         return list;
     }
 
-    public void delete(T obj) {
-        if (obj instanceof Cliente || obj instanceof Fornecedor) {
-            initEMF(obj);
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            Query q = em.createNativeQuery(returnSQLDelete(obj));
-            q.executeUpdate();
+    public void delete(T t) {
+
+        if (t instanceof Cliente || t instanceof Fornecedor) {
+            try {
+                loadEM();
+                Object obj = null;
+                if (t instanceof Cliente) {
+                    obj = em.find(Cliente.class, ((Cliente) t).getCod());
+
+                } else if (t instanceof Fornecedor) {
+                    obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
+                }
+                em.remove(obj);
+                em.getTransaction().commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                em.close();
+            }
+        }
+
+    }
+
+    public T findByCod(int cod) {
+        Object obj = null;
+        try {
+            loadEM();
+
+            obj = em.find(Cliente.class, cod);
             em.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             em.close();
-        } else {
-
         }
-
+        return (T) obj;
     }
 
-    private void initEMF(T obj) {
-        String entity = (obj.getClass().getName());
-        emf = Persistence.createEntityManagerFactory((entity.substring(entity.lastIndexOf('.') + 1)).toLowerCase());
-    }
-
-    private String returnSQLDelete(T obj) {
-        if (obj instanceof Cliente) {
-            return "DELETE cliente FROM cliente WHERE cod = " + ((Cliente) obj).getCod();
-        }
-        return null;
-    }
 }
