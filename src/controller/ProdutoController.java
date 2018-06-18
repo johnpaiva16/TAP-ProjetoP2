@@ -23,8 +23,12 @@ public class ProdutoController {
         this.TABLE_NAME = "produto";
     }
 
-    public Produto saveProduto(Produto p) {
-        return (Produto) dao.save(p);
+    public boolean saveProduto(Produto p) {
+        p = (Produto) dao.save(p);
+        if( p.getCod() != 0){
+            return true;
+        }
+        return false;
     }
 
     public Produto updateProduto(Produto fornecedor) {

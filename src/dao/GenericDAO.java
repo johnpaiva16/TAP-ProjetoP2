@@ -140,7 +140,7 @@ public class GenericDAO<T> {
 
     public void delete(T t) {
 
-        if (t instanceof Cliente || t instanceof Fornecedor) {
+        if (t instanceof Cliente || t instanceof Fornecedor || t instanceof Produto) {
             try {
                 loadEM();
                 Object obj = null;
@@ -149,6 +149,8 @@ public class GenericDAO<T> {
 
                 } else if (t instanceof Fornecedor) {
                     obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
+                }else if (t instanceof Produto) {
+                    obj = em.find(Produto.class, ((Produto) t).getCod());
                 }
                 em.remove(obj);
                 em.getTransaction().commit();
