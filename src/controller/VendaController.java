@@ -13,7 +13,6 @@ public class VendaController {
 
     public String finalizaVenda(Venda venda) {
         if (!venda.getItens().isEmpty()) {
-            
             dao.save(venda);
         }
         return null;

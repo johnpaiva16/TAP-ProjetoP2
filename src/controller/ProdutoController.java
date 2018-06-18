@@ -14,32 +14,32 @@ import model.Produto;
  * @author jesp
  */
 public class ProdutoController {
-    
-    
-      private final GenericDAO dao;
+
+    private final GenericDAO dao;
     private final String TABLE_NAME;
 
     public ProdutoController() {
-        dao= new GenericDAO();
+        dao = new GenericDAO();
         this.TABLE_NAME = "produto";
     }
-    
-    public Produto saveProduto(Produto p){
-     
-        return  (Produto) dao.save(p);
-     
-     
+
+    public Produto saveProduto(Produto p) {
+        return (Produto) dao.save(p);
     }
-    public Produto updateProduto(Produto fornecedor){
-       return (Produto) dao.update(fornecedor);
+
+    public Produto updateProduto(Produto fornecedor) {
+        return (Produto) dao.update(fornecedor);
     }
-    public List<Produto> findAllProdutos(){
+
+    public List<Produto> findAllProdutos() {
         return dao.findAll(TABLE_NAME);
     }
-      public Produto findProdutoByCod(int id) {
-        return (Produto) dao.findByCod(id);
+
+    public Produto findProdutoByCod(int id) {
+        return (Produto) dao.findByCod(id, TABLE_NAME);
 
     }
+
     public void deleteProduto(int id) {
         Produto p = findProdutoByCod(id);
         dao.delete(p);

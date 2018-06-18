@@ -1,8 +1,13 @@
 package view;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import controller.ClienteController;
-import dao.ClienteDAO;
+import controller.FornecedorController;
+import controller.ProdutoController;
+import controller.VendaController;
+
 import dao.GenericDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,46 +15,46 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import model.Cliente;
 import model.Endereco;
+import model.Fornecedor;
+import model.ItemVenda;
+import model.Produto;
+import model.Venda;
+
 /**
  *
  * @author jesp
  */
-public class TesteMain extends Application {
+public class TesteMain  {
 
-    public static void main(String[] args) {
-        //launch(args);
+   /* public static void main(String[] args) {
+       
+        ProdutoController pc = new ProdutoController();
+        VendaController vc = new VendaController();
+       
+        Produto p = pc.findProdutoByCod(71);
+        Produto p2 = pc.findProdutoByCod(72);
+               
+        ItemVenda item = new ItemVenda();
+        item.setProduto(p);
+        item.setQtd(3);
+       
+        ItemVenda item2 = new ItemVenda();
+        item2.setProduto(p2);
+        item2.setQtd(2);
         
-        //GenericDAO dao = new GenericDAO();
-        ClienteController cc = new ClienteController();
-        Cliente c = new Cliente();
-       // ClienteDAO cliDao = new ClienteDAO();
         
-        Endereco end = new Endereco();
-        //end.setCep("54270110");
-       // c.setCod(1);
-        c.setNome("John");
-        c.setCpf("09612582416");
-        c.setRg("121323224");
-        c.setEndereco(end);
-                     
-        
-      //cc.deleteClient(c);
-       cc.saveClient(c);
-     //   cc.updateClient(c);
-        //dao.save(c);
-        //dao.update(c);
-        //dao.delete(c);
-       /*List<Cliente> l = cc.listAllClient();
-        for (Cliente cl : l) {
-            System.out.println(cl.getCod() + " | " + cl.getNome());
+        Venda v = new Venda();
+       v.adicionaItem(item);
+       v.adicionaItem(item2);
+        for(ItemVenda i : v.getItens()){
+            System.out.println(i.getProduto().getDescricao());
+        }
+            
+       
+        //System.out.println("AQUI");
+        vc.finalizaVenda(v);
 
-        } */
+    }*/
 
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-
-    }
+    
 }

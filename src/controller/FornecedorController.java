@@ -37,7 +37,7 @@ public class FornecedorController {
     }
 
     public Fornecedor findFornecedorByCod(int id) {
-        return (Fornecedor) dao.findByCod(id);
+        return (Fornecedor) dao.findByCod(id, TABLE_NAME);
 
     }
 

@@ -1,4 +1,4 @@
-package dao;
+package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 public class ConnectionUtilJDBC {
 
 	public static Connection getConnection() {
-		Properties properties = new Properties();
+	Properties properties = new Properties();
 
 		try {
 			ResourceBundle resources = ResourceBundle.getBundle("util.DatabaseProperties");
@@ -33,5 +33,5 @@ public class ConnectionUtilJDBC {
 			e.printStackTrace();
 		}
 		return null;
-	}
+        }
 }

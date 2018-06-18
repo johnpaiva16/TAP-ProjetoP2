@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,13 @@ public class Venda {
         valorTotal = 0;
     }
 
- 
-    public void calculaSubtotal() {
+    public void adicionaItem(ItemVenda item) {
+        itens.add(item);
+        calculaSubtotal();
+        calculaTotal();
+    }
+
+    private void calculaSubtotal() {
         double subtotal = 0;
         for (ItemVenda i : itens) {
             subtotal += i.getProduto().getPreco() * i.getQtd();
@@ -32,15 +38,10 @@ public class Venda {
         this.subtotal = subtotal;
     }
 
-    public void calculaTotal() {
+    private void calculaTotal() {
         valorTotal = subtotal - desconto;
     }
-    public void adicionaItem(ItemVenda item){
-        itens.add(item);
-        calculaSubtotal();
-        calculaTotal();
-    }
-       
+
     public int getCod() {
         return cod;
     }
@@ -89,6 +90,8 @@ public class Venda {
         this.data = data;
     }
 
-    
-    
+    public void setCod(RowId codVenda) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

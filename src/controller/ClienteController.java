@@ -33,7 +33,7 @@ public class ClienteController {
     }
 
     public Cliente findClientByCod(int id) {
-        return (Cliente) dao.findByCod(id);
+        return (Cliente) dao.findByCod(id, TABLE_NAME);
 
     }
 
