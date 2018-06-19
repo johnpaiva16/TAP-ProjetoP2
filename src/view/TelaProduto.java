@@ -80,6 +80,9 @@ public class TelaProduto extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Novo_Produto_);
         jButton_Novo_Produto_.setBounds(710, 680, 80, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Novo_Produto_.setVisible(false);
+        }
 
         jButton_Editar_Produto_.setText("Editar");
         jButton_Editar_Produto_.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +92,9 @@ public class TelaProduto extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Editar_Produto_);
         jButton_Editar_Produto_.setBounds(810, 680, 80, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Editar_Produto_.setVisible(false);
+        }
 
         jButton_Excluir_Produto_.setText("Excluir");
         jButton_Excluir_Produto_.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +104,9 @@ public class TelaProduto extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Excluir_Produto_);
         jButton_Excluir_Produto_.setBounds(900, 680, 80, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Excluir_Produto_.setVisible(false);
+        }
 
         jButton_Listar_Produto_.setText("Listar");
         jButton_Listar_Produto_.addActionListener(new java.awt.event.ActionListener() {
