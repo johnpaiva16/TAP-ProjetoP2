@@ -43,30 +43,22 @@ public class TelaProdutoCadastro extends javax.swing.JDialog {
         jButton_Salvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel1.setText("Código");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 80, -1));
-        getContentPane().add(jTextField_COD_Produto_, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 50, 30));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel2.setText("Descrição");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 134, 90, -1));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel7.setText("Preço");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 193, 72, -1));
 
         jTextField_Descricao_Produto_.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        getContentPane().add(jTextField_Descricao_Produto_, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 131, 360, -1));
 
         jTextField_Preco_Produto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        getContentPane().add(jTextField_Preco_Produto, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 190, 87, -1));
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Produto");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 90, 40));
 
         jButton_Cancelar.setText("Cancelar");
         jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +66,6 @@ public class TelaProdutoCadastro extends javax.swing.JDialog {
                 jButton_CancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
         jButton_Salvar.setText("Salvar");
         jButton_Salvar.addActionListener(new java.awt.event.ActionListener() {
@@ -82,7 +73,61 @@ public class TelaProdutoCadastro extends javax.swing.JDialog {
                 jButton_SalvarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Salvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 260, 70, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jTextField_COD_Produto_, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jTextField_Descricao_Produto_, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jTextField_Preco_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jButton_Cancelar)
+                .addGap(35, 35, 35)
+                .addComponent(jButton_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField_COD_Produto_, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel2))
+                    .addComponent(jTextField_Descricao_Produto_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel7))
+                    .addComponent(jTextField_Preco_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Cancelar)
+                    .addComponent(jButton_Salvar)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -2,6 +2,8 @@ package controller;
 
 import dao.ClienteDAO;
 import dao.GenericDAO;
+import exception.CPFInvalidoException;
+import exception.CPFJaCadastradoException;
 import java.util.List;
 import model.Cliente;
 import util.Utils;
@@ -9,16 +11,24 @@ import util.Utils;
 public class ClienteController {
 
     private final GenericDAO dao;
+    private ClienteDAO cDao;
     private final String TABLE_NAME;
 
     public ClienteController() {
-        dao= new GenericDAO();
+        dao = new GenericDAO();
         this.TABLE_NAME = "cliente";
     }
 
-    public void saveClient(Cliente c) {
+    public void saveClient(Cliente c) throws CPFInvalidoException, CPFJaCadastradoException {
         if (Utils.validaCpf(c.getCpf())) {
-            dao.save(c);
+            //Cliente cAux = cDao.findByCpf(c.getCpf());
+            //if (cAux == null) {
+            //    throw new CPFJaCadastradoException("O CPF já está cadastrado.");
+            //} else {
+                dao.save(c);
+           // }
+        } else {
+            throw new CPFInvalidoException("CPF inválido.");
         }
     }
 
@@ -37,6 +47,7 @@ public class ClienteController {
         return (Cliente) dao.findByCod(id, TABLE_NAME);
 
     }
+
     public Cliente findClientByCpf(String cpf) {
         ClienteDAO cDao = new ClienteDAO();
         return cDao.findByCpf(cpf);

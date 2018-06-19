@@ -83,9 +83,9 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabelNomeCliente.setBounds(70, 110, 120, 30);
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel7.setText("Subtotal");
+        jLabel7.setText("Subtotal        R$");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(650, 310, 90, 30);
+        jLabel7.setBounds(650, 310, 130, 30);
 
         jTextField_Nome_Cliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Nome_Cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -109,7 +109,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField_Subtotal);
-        jTextField_Subtotal.setBounds(760, 310, 120, 28);
+        jTextField_Subtotal.setBounds(780, 310, 120, 28);
 
         jButton_ADD_Venda_.setText("- Item");
         jButton_ADD_Venda_.addActionListener(new java.awt.event.ActionListener() {
@@ -148,9 +148,9 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel9.setBounds(510, 0, 90, 40);
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel8.setText("Valor Total");
+        jLabel8.setText("Valor Total    R$");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(650, 410, 90, 30);
+        jLabel8.setBounds(650, 410, 130, 30);
 
         jTextField_Valor_Total.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Valor_Total.setText("0.00");
@@ -160,7 +160,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField_Valor_Total);
-        jTextField_Valor_Total.setBounds(760, 410, 120, 28);
+        jTextField_Valor_Total.setBounds(780, 410, 120, 28);
 
         jButton_ADD_Venda_1.setText("+ Item");
         jButton_ADD_Venda_1.addActionListener(new java.awt.event.ActionListener() {
@@ -181,9 +181,9 @@ public class TelaVenda extends javax.swing.JFrame {
         jButton1.setBounds(390, 60, 100, 30);
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel10.setText("Desconto");
+        jLabel10.setText("Desconto      R$");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(650, 360, 90, 30);
+        jLabel10.setBounds(650, 360, 120, 30);
 
         jTextField_Desconto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Desconto.setText("0.00");
@@ -193,7 +193,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField_Desconto);
-        jTextField_Desconto.setBounds(760, 360, 120, 28);
+        jTextField_Desconto.setBounds(780, 360, 120, 28);
 
         jButton_Finalizar_Venda.setText("Finalizar Venda");
         jButton_Finalizar_Venda.addActionListener(new java.awt.event.ActionListener() {

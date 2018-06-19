@@ -5,8 +5,7 @@
  */
 package dao;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
