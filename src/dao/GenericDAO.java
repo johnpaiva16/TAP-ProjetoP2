@@ -70,7 +70,11 @@ public class GenericDAO<T> {
                     stmt.setDouble(3, v.getValorTotal());
                     stmt.setString(4, v.getData());
                     stmt.setString(5, v.getHora());
-                    stmt.setInt(6, v.getCliente().getCod());
+                    if (v.getCliente().getCod() != 0) {
+                        stmt.setInt(6, v.getCliente().getCod());
+                    }else{
+                        stmt.setNull(6, 0);
+                    }
                     stmt.executeUpdate();
 
                     ResultSet rs = stmt.getGeneratedKeys();
