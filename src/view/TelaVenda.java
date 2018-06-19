@@ -5,15 +5,27 @@
  */
 package view;
 
+import controller.ClienteController;
+import controller.ProdutoController;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.persistence.NoResultException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Cliente;
+import model.ItemVenda;
+import model.Produto;
+import model.Venda;
+
 /**
  *
  * @author L
  */
 public class TelaVenda extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaCliente
-     */
+    Venda venda = new Venda();
+
     public TelaVenda() {
         initComponents();
     }
@@ -27,22 +39,26 @@ public class TelaVenda extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabelNomeCliente = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField_COD_Cliente_ = new javax.swing.JTextField();
+        jTextField_Nome_Cliente = new javax.swing.JTextField();
         jTextField_COD_Produto_ = new javax.swing.JTextField();
-        jTextField_Valor_Total_Venda_ = new javax.swing.JTextField();
-        jButton_Limpar_Venda_ = new javax.swing.JButton();
-        jButton_Nova_Venda_ = new javax.swing.JButton();
+        jTextField_Subtotal = new javax.swing.JTextField();
         jButton_ADD_Venda_ = new javax.swing.JButton();
         jButton_Finalizar_Venda_ = new javax.swing.JButton();
-        jButton_Excluir_venda_ = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField_Valor_Total = new javax.swing.JTextField();
+        jButton_ADD_Venda_1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField_Desconto = new javax.swing.JTextField();
+        jButton_Finalizar_Venda = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField_CPF_Cliente1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -53,182 +69,141 @@ public class TelaVenda extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(null);
 
-        jLabel1.setText("COD. Venda:");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 14, 80, 14);
-
-        jTextField1.setEnabled(false);
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(86, 11, 50, 20);
-
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel3.setText("Cod. Produto:");
+        jLabel3.setText("Cod. Item");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(290, 110, 110, 30);
+        jLabel3.setBounds(310, 190, 110, 30);
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel4.setText("Cod. Cliente:");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(10, 110, 94, 30);
+        jLabelNomeCliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabelNomeCliente.setText("Nome do cliente");
+        getContentPane().add(jLabelNomeCliente);
+        jLabelNomeCliente.setBounds(70, 110, 120, 30);
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel7.setText("Valor total:");
+        jLabel7.setText("Subtotal");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(760, 180, 90, 30);
+        jLabel7.setBounds(650, 310, 90, 30);
 
-        jTextField_COD_Cliente_.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        getContentPane().add(jTextField_COD_Cliente_);
-        jTextField_COD_Cliente_.setBounds(110, 110, 162, 28);
+        jTextField_Nome_Cliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextField_Nome_Cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_Nome_ClienteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextField_Nome_Cliente);
+        jTextField_Nome_Cliente.setBounds(210, 110, 162, 30);
+        jTextField_Nome_Cliente.setEnabled(false);
 
         jTextField_COD_Produto_.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         getContentPane().add(jTextField_COD_Produto_);
-        jTextField_COD_Produto_.setBounds(400, 110, 162, 28);
+        jTextField_COD_Produto_.setBounds(400, 190, 140, 28);
 
-        jTextField_Valor_Total_Venda_.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        getContentPane().add(jTextField_Valor_Total_Venda_);
-        jTextField_Valor_Total_Venda_.setBounds(850, 180, 160, 28);
-
-        jButton_Limpar_Venda_.setText("Limpar");
-        jButton_Limpar_Venda_.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Subtotal.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextField_Subtotal.setText("0.00");
+        jTextField_Subtotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_Limpar_Venda_ActionPerformed(evt);
+                jTextField_SubtotalActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Limpar_Venda_);
-        jButton_Limpar_Venda_.setBounds(30, 60, 80, 23);
+        getContentPane().add(jTextField_Subtotal);
+        jTextField_Subtotal.setBounds(760, 310, 120, 28);
 
-        jButton_Nova_Venda_.setText("Novo");
-        getContentPane().add(jButton_Nova_Venda_);
-        jButton_Nova_Venda_.setBounds(180, 60, 80, 23);
-
-        jButton_ADD_Venda_.setText("Adicionar");
+        jButton_ADD_Venda_.setText("- Item");
+        jButton_ADD_Venda_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ADD_Venda_ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_ADD_Venda_);
-        jButton_ADD_Venda_.setBounds(400, 140, 160, 23);
+        jButton_ADD_Venda_.setBounds(520, 600, 110, 30);
 
-        jButton_Finalizar_Venda_.setText("Finalizar");
+        jButton_Finalizar_Venda_.setText("Cancelar");
+        jButton_Finalizar_Venda_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Finalizar_Venda_ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_Finalizar_Venda_);
-        jButton_Finalizar_Venda_.setBounds(330, 60, 80, 23);
-
-        jButton_Excluir_venda_.setText("Excluir");
-        getContentPane().add(jButton_Excluir_venda_);
-        jButton_Excluir_venda_.setBounds(480, 60, 80, 23);
+        jButton_Finalizar_Venda_.setBounds(660, 550, 210, 30);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Cod. Venda", "Nome produto", "Preço produto"
+                "Cod. Item", "Item", "Preço produto", "Quantidade"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(20, 220, 990, 510);
+        jScrollPane1.setBounds(70, 240, 560, 350);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Venda");
         getContentPane().add(jLabel9);
         jLabel9.setBounds(510, 0, 90, 40);
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel8.setText("Valor Total");
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(650, 410, 90, 30);
+
+        jTextField_Valor_Total.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextField_Valor_Total.setText("0.00");
+        getContentPane().add(jTextField_Valor_Total);
+        jTextField_Valor_Total.setBounds(760, 410, 120, 28);
+
+        jButton_ADD_Venda_1.setText("+ Item");
+        jButton_ADD_Venda_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ADD_Venda_1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_ADD_Venda_1);
+        jButton_ADD_Venda_1.setBounds(560, 190, 70, 30);
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(390, 60, 100, 30);
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel10.setText("Desconto");
+        getContentPane().add(jLabel10);
+        jLabel10.setBounds(650, 360, 90, 30);
+
+        jTextField_Desconto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextField_Desconto.setText("0.00");
+        jTextField_Desconto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_DescontoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextField_Desconto);
+        jTextField_Desconto.setBounds(760, 360, 120, 28);
+
+        jButton_Finalizar_Venda.setText("Finalizar Venda");
+        jButton_Finalizar_Venda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Finalizar_VendaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Finalizar_Venda);
+        jButton_Finalizar_Venda.setBounds(660, 500, 210, 30);
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel5.setText("CPF do cliente");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(70, 60, 120, 30);
+
+        jTextField_CPF_Cliente1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        getContentPane().add(jTextField_CPF_Cliente1);
+        jTextField_CPF_Cliente1.setBounds(210, 60, 162, 30);
 
         jMenu2.setText("Sair");
 
@@ -268,11 +243,60 @@ public class TelaVenda extends javax.swing.JFrame {
         dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Fazer_Logoff_ActionPerformed
 
-    private void jButton_Limpar_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Limpar_Venda_ActionPerformed
-        TelaVenda tela = new TelaVenda();
-        tela.setVisible(true);
-        dispose();          // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_Limpar_Venda_ActionPerformed
+    private void jButton_Finalizar_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Finalizar_Venda_ActionPerformed
+        int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja cancelar esta venda?");
+        if (op == JOptionPane.YES_OPTION) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setNumRows(0);
+            venda = new Venda();
+            jTextField_COD_Produto_.setText("");
+            jTextField_Nome_Cliente.setText("");
+            atualizaValores();
+        }
+    }//GEN-LAST:event_jButton_Finalizar_Venda_ActionPerformed
+
+    private void jButton_ADD_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ADD_Venda_ActionPerformed
+        removeItem();
+    }//GEN-LAST:event_jButton_ADD_Venda_ActionPerformed
+
+    private void jButton_ADD_Venda_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ADD_Venda_1ActionPerformed
+        addItem();
+    }//GEN-LAST:event_jButton_ADD_Venda_1ActionPerformed
+
+    private void jButton_Finalizar_VendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Finalizar_VendaActionPerformed
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        Venda v = new Venda();
+        v.setData(dtf.format(LocalDate.now()));
+
+    }//GEN-LAST:event_jButton_Finalizar_VendaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ClienteController cc = new ClienteController();
+        try {
+
+            Cliente c = cc.findClientByCpf(jTextField_Nome_Cliente.getText());
+            System.out.println(c.getNome());
+            venda.setCliente(c);
+            jTextField_Nome_Cliente.setText(c.getNome());
+
+        } catch (NoResultException e) {
+            JOptionPane.showMessageDialog(rootPane, "CPF não encontrado.");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField_SubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_SubtotalActionPerformed
+
+    }//GEN-LAST:event_jTextField_SubtotalActionPerformed
+
+    private void jTextField_DescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_DescontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_DescontoActionPerformed
+
+    private void jTextField_Nome_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_Nome_ClienteActionPerformed
+
+    }//GEN-LAST:event_jTextField_Nome_ClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,25 +335,75 @@ public class TelaVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_ADD_Venda_;
-    private javax.swing.JButton jButton_Excluir_venda_;
+    private javax.swing.JButton jButton_ADD_Venda_1;
+    private javax.swing.JButton jButton_Finalizar_Venda;
     private javax.swing.JButton jButton_Finalizar_Venda_;
-    private javax.swing.JButton jButton_Limpar_Venda_;
-    private javax.swing.JButton jButton_Nova_Venda_;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelNomeCliente;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_Fazer_Logoff_;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField_COD_Cliente_;
     private javax.swing.JTextField jTextField_COD_Produto_;
-    private javax.swing.JTextField jTextField_Valor_Total_Venda_;
+    private javax.swing.JTextField jTextField_CPF_Cliente1;
+    private javax.swing.JTextField jTextField_Desconto;
+    private javax.swing.JTextField jTextField_Nome_Cliente;
+    private javax.swing.JTextField jTextField_Subtotal;
+    private javax.swing.JTextField jTextField_Valor_Total;
     // End of variables declaration//GEN-END:variables
+
+    private void addItem() {
+        ProdutoController pc = new ProdutoController();
+        if (!jTextField_COD_Produto_.getText().isEmpty()) {
+            int codProduto = Integer.parseInt(jTextField_COD_Produto_.getText());
+            Produto p = pc.findProdutoByCod(codProduto);
+            if (p != null) {
+                ItemVenda item = new ItemVenda(p, 1);
+
+                venda.adicionaItem(item);
+                atualizaValores();
+                preencheJTable(item);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Atenção: O código de produto não está cadastrado.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Favor, informe o código do produto.");
+        }
+    }
+
+    private void preencheJTable(ItemVenda item) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        Object rowData[] = new Object[4];
+        rowData[0] = item.getProduto().getCod();
+        rowData[1] = item.getProduto().getDescricao();
+        rowData[2] = item.getProduto().getPreco();
+        rowData[3] = item.getQtd();
+        model.addRow(rowData);
+
+    }
+
+    private void removeItem() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        venda.removeItem(row);
+        model.removeRow(row);
+        atualizaValores();
+
+    }
+
+    private void atualizaValores() {
+        jTextField_Subtotal.setText(String.valueOf(venda.getSubtotal()));
+        jTextField_Desconto.setText(String.valueOf(venda.getDesconto()));
+        jTextField_Valor_Total.setText(String.valueOf(venda.getValorTotal()));
+    }
 }

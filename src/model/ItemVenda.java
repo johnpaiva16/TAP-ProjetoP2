@@ -12,6 +12,15 @@ public class ItemVenda {
     private Produto produto;
     private int qtd;
 
+    public ItemVenda(){
+    
+    }
+    
+    public ItemVenda(Produto p, int qtd){
+        this.produto = p;
+        this.qtd = qtd;
+    }
+    
     public int getCod() {
         return cod;
     }

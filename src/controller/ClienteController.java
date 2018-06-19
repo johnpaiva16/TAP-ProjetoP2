@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ClienteDAO;
 import dao.GenericDAO;
 import java.util.List;
 import model.Cliente;
@@ -34,6 +35,11 @@ public class ClienteController {
 
     public Cliente findClientByCod(int id) {
         return (Cliente) dao.findByCod(id, TABLE_NAME);
+
+    }
+    public Cliente findClientByCpf(String cpf) {
+        ClienteDAO cDao = new ClienteDAO();
+        return cDao.findByCpf(cpf);
 
     }
 

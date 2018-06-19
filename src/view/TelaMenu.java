@@ -118,7 +118,7 @@ public class TelaMenu extends javax.swing.JFrame {
 
         jMenu2.setText("Vendas");
 
-        jMenuItem_Vendas_.setText("Fazer uma venda");
+        jMenuItem_Vendas_.setText("Nova Venda");
         jMenuItem_Vendas_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_Vendas_ActionPerformed(evt);

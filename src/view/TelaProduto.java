@@ -206,21 +206,26 @@ public class TelaProduto extends javax.swing.JFrame {
     private void jButton_Excluir_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Excluir_Produto_ActionPerformed
         int row = jTable_produto.getSelectedRow();
         int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir este produto?");
-       if (op == JOptionPane.YES_OPTION) {
+        if (op == JOptionPane.YES_OPTION) {
             controller.deleteProduto((int) jTable_produto.getValueAt(row, 0));
             preencheJTable();
         }
     }//GEN-LAST:event_jButton_Excluir_Produto_ActionPerformed
 
     private void jButton_Pesquisa_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Pesquisa_Produto_ActionPerformed
+
         DefaultTableModel model = (DefaultTableModel) jTable_produto.getModel();
         model.setNumRows(0);
         Produto p = controller.findProdutoByCod(Integer.parseInt(jTextField_COD_Produto_.getText()));
-        Object rowData[] = new Object[3];
+        if (p != null) {
+            Object rowData[] = new Object[3];
             rowData[0] = p.getCod();
             rowData[1] = p.getDescricao();
             rowData[2] = p.getPreco();
             model.addRow(rowData);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Código de produto não encontrado.");
+        }
     }//GEN-LAST:event_jButton_Pesquisa_Produto_ActionPerformed
 
     private void jTextField_COD_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_COD_Produto_ActionPerformed

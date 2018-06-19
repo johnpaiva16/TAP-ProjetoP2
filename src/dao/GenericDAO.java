@@ -61,18 +61,16 @@ public class GenericDAO<T> {
                 CreateTables ct = new CreateTables();
                 Venda v = (Venda) obj;
 
-                String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data) VALUES (?,?,?,?)";
+                String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data, cod_cliente) VALUES (?,?,?,?,?)";
                 String insertTableItens = "INSERT INTO ItensVenda (cod_produto, qtd_produto, cod_venda) VALUES(?,?,?)";
                 try {
-                   
-                    //ct.executaSQL();
-
                     loadConectionJDBC();
                     stmt = conn.prepareStatement(insertTableVenda, Statement.RETURN_GENERATED_KEYS);
                     stmt.setDouble(1, v.getSubtotal());
                     stmt.setDouble(2, v.getDesconto());
                     stmt.setDouble(3, v.getValorTotal());
                     stmt.setString(4, v.getData());
+                    stmt.setInt(5, v.getCliente().getCod());
                     stmt.executeUpdate();
 
                     ResultSet rs = stmt.getGeneratedKeys();
@@ -133,7 +131,7 @@ public class GenericDAO<T> {
             } finally {
                 em.close();
             }
-        }else{
+        } else {
         }
         return list;
     }
@@ -149,7 +147,7 @@ public class GenericDAO<T> {
 
                 } else if (t instanceof Fornecedor) {
                     obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
-                }else if (t instanceof Produto) {
+                } else if (t instanceof Produto) {
                     obj = em.find(Produto.class, ((Produto) t).getCod());
                 }
                 em.remove(obj);

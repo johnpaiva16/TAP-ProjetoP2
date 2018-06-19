@@ -16,6 +16,7 @@ public class Venda {
     private double desconto;
     private double valorTotal;
     private String data;
+    private Cliente cliente;
 
     public Venda() {
         itens = new ArrayList<ItemVenda>();
@@ -26,6 +27,12 @@ public class Venda {
 
     public void adicionaItem(ItemVenda item) {
         itens.add(item);
+        calculaSubtotal();
+        calculaTotal();
+    }
+    
+    public void removeItem(int index) {
+        itens.remove(index);
         calculaSubtotal();
         calculaTotal();
     }
@@ -90,8 +97,15 @@ public class Venda {
         this.data = data;
     }
 
-    public void setCod(RowId codVenda) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cliente getCliente() {
+        return cliente;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+   
+    
+    
 }
