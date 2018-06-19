@@ -62,7 +62,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jTextField_Desconto = new javax.swing.JTextField();
         jButton_Finalizar_Venda = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField_CPF_Cliente1 = new javax.swing.JTextField();
+        jTextField_CPF_Cliente = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -205,9 +205,9 @@ public class TelaVenda extends javax.swing.JFrame {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(70, 60, 120, 30);
 
-        jTextField_CPF_Cliente1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        getContentPane().add(jTextField_CPF_Cliente1);
-        jTextField_CPF_Cliente1.setBounds(210, 60, 162, 30);
+        jTextField_CPF_Cliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        getContentPane().add(jTextField_CPF_Cliente);
+        jTextField_CPF_Cliente.setBounds(210, 60, 162, 30);
 
         jMenu2.setText("Sair");
 
@@ -259,6 +259,7 @@ public class TelaVenda extends javax.swing.JFrame {
         model.setNumRows(0);
         venda = new Venda();
         jTextField_COD_Produto_.setText("");
+        jTextField_CPF_Cliente.setText("");
         jTextField_Nome_Cliente.setText("");
         atualizaValores();
 
@@ -275,14 +276,18 @@ public class TelaVenda extends javax.swing.JFrame {
         VendaController vc = new VendaController();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        
+
         try {
-            venda.setData(dtf.format(LocalDate.now()));
-            venda.setHora(sdf.format(new Date()));
-            vc.finalizaVenda(venda);
-            limpa();
-            venda = new Venda();
-        } catch(Exception e){
+            if (JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja finalizar a venda?") == JOptionPane.YES_OPTION) {
+                venda.setData(dtf.format(LocalDate.now()));
+                venda.setHora(sdf.format(new Date()));
+                vc.finalizaVenda(venda);
+                JOptionPane.showMessageDialog(rootPane, "Venda finalizada com sucesso.");
+                limpa();
+                venda = new Venda();
+            }
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Erro inesperado.");
         }
     }//GEN-LAST:event_jButton_Finalizar_VendaActionPerformed
@@ -292,16 +297,16 @@ public class TelaVenda extends javax.swing.JFrame {
 
         try {
 
-            Cliente auxC = cc.findClientByCpf(jTextField_CPF_Cliente1.getText());
+            Cliente auxC = cc.findClientByCpf(jTextField_CPF_Cliente.getText());
             if (auxC != null) {
                 c = auxC;
                 venda.setCliente(c);
                 jTextField_Nome_Cliente.setText(c.getNome());
-            }
+            } 
 
         } catch (NoResultException e) {
             JOptionPane.showMessageDialog(rootPane, "CPF não encontrado.");
-            jTextField_CPF_Cliente1.setText(c.getCpf());
+            jTextField_CPF_Cliente.setText(c.getCpf());
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -374,7 +379,7 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField_COD_Produto_;
-    private javax.swing.JTextField jTextField_CPF_Cliente1;
+    private javax.swing.JTextField jTextField_CPF_Cliente;
     private javax.swing.JTextField jTextField_Desconto;
     private javax.swing.JTextField jTextField_Nome_Cliente;
     private javax.swing.JTextField jTextField_Subtotal;

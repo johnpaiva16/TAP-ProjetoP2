@@ -24,6 +24,7 @@ public class Venda {
         desconto = 0;
         subtotal = 0;
         valorTotal = 0;
+        cliente = new Cliente();
     }
 
     public void adicionaItem(ItemVenda item) {
