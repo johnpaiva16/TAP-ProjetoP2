@@ -16,7 +16,6 @@ import model.Cliente;
 import model.Fornecedor;
 import model.ItemVenda;
 import model.Produto;
-import model.Usuario;
 import model.Venda;
 import util.CreateTables;
 
@@ -61,7 +60,7 @@ public class GenericDAO<T> {
                 CreateTables ct = new CreateTables();
                 Venda v = (Venda) obj;
 
-                String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data, cod_cliente) VALUES (?,?,?,?,?)";
+                String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data, hora, cod_cliente) VALUES (?,?,?,?,?,?)";
                 String insertTableItens = "INSERT INTO ItensVenda (cod_produto, qtd_produto, cod_venda) VALUES(?,?,?)";
                 try {
                     loadConectionJDBC();
@@ -70,7 +69,8 @@ public class GenericDAO<T> {
                     stmt.setDouble(2, v.getDesconto());
                     stmt.setDouble(3, v.getValorTotal());
                     stmt.setString(4, v.getData());
-                    stmt.setInt(5, v.getCliente().getCod());
+                    stmt.setString(5, v.getHora());
+                    stmt.setInt(6, v.getCliente().getCod());
                     stmt.executeUpdate();
 
                     ResultSet rs = stmt.getGeneratedKeys();

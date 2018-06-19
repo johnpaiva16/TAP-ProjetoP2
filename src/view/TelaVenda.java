@@ -7,8 +7,11 @@ package view;
 
 import controller.ClienteController;
 import controller.ProdutoController;
+import controller.VendaController;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
@@ -25,6 +28,7 @@ import model.Venda;
 public class TelaVenda extends javax.swing.JFrame {
 
     Venda venda = new Venda();
+    Cliente c = null;
 
     public TelaVenda() {
         initComponents();
@@ -46,7 +50,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jTextField_COD_Produto_ = new javax.swing.JTextField();
         jTextField_Subtotal = new javax.swing.JTextField();
         jButton_ADD_Venda_ = new javax.swing.JButton();
-        jButton_Finalizar_Venda_ = new javax.swing.JButton();
+        jButton_Cancelar_Venda = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
@@ -117,14 +121,14 @@ public class TelaVenda extends javax.swing.JFrame {
         getContentPane().add(jButton_ADD_Venda_);
         jButton_ADD_Venda_.setBounds(520, 600, 110, 30);
 
-        jButton_Finalizar_Venda_.setText("Cancelar");
-        jButton_Finalizar_Venda_.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Cancelar_Venda.setText("Cancelar");
+        jButton_Cancelar_Venda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_Finalizar_Venda_ActionPerformed(evt);
+                jButton_Cancelar_VendaActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Finalizar_Venda_);
-        jButton_Finalizar_Venda_.setBounds(660, 550, 210, 30);
+        getContentPane().add(jButton_Cancelar_Venda);
+        jButton_Cancelar_Venda.setBounds(660, 550, 210, 30);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -243,18 +247,22 @@ public class TelaVenda extends javax.swing.JFrame {
         dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Fazer_Logoff_ActionPerformed
 
-    private void jButton_Finalizar_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Finalizar_Venda_ActionPerformed
+    private void jButton_Cancelar_VendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Cancelar_VendaActionPerformed
         int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja cancelar esta venda?");
         if (op == JOptionPane.YES_OPTION) {
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setNumRows(0);
-            venda = new Venda();
-            jTextField_COD_Produto_.setText("");
-            jTextField_Nome_Cliente.setText("");
-            atualizaValores();
+            limpa();
         }
-    }//GEN-LAST:event_jButton_Finalizar_Venda_ActionPerformed
+    }//GEN-LAST:event_jButton_Cancelar_VendaActionPerformed
 
+    private void limpa() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setNumRows(0);
+        venda = new Venda();
+        jTextField_COD_Produto_.setText("");
+        jTextField_Nome_Cliente.setText("");
+        atualizaValores();
+
+    }
     private void jButton_ADD_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ADD_Venda_ActionPerformed
         removeItem();
     }//GEN-LAST:event_jButton_ADD_Venda_ActionPerformed
@@ -264,24 +272,36 @@ public class TelaVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ADD_Venda_1ActionPerformed
 
     private void jButton_Finalizar_VendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Finalizar_VendaActionPerformed
+        VendaController vc = new VendaController();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        Venda v = new Venda();
-        v.setData(dtf.format(LocalDate.now()));
-
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        
+        try {
+            venda.setData(dtf.format(LocalDate.now()));
+            venda.setHora(sdf.format(new Date()));
+            vc.finalizaVenda(venda);
+            limpa();
+            venda = new Venda();
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado.");
+        }
     }//GEN-LAST:event_jButton_Finalizar_VendaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ClienteController cc = new ClienteController();
+
         try {
 
-            Cliente c = cc.findClientByCpf(jTextField_Nome_Cliente.getText());
-            System.out.println(c.getNome());
-            venda.setCliente(c);
-            jTextField_Nome_Cliente.setText(c.getNome());
+            Cliente auxC = cc.findClientByCpf(jTextField_CPF_Cliente1.getText());
+            if (auxC != null) {
+                c = auxC;
+                venda.setCliente(c);
+                jTextField_Nome_Cliente.setText(c.getNome());
+            }
 
         } catch (NoResultException e) {
             JOptionPane.showMessageDialog(rootPane, "CPF não encontrado.");
+            jTextField_CPF_Cliente1.setText(c.getCpf());
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -338,8 +358,8 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_ADD_Venda_;
     private javax.swing.JButton jButton_ADD_Venda_1;
+    private javax.swing.JButton jButton_Cancelar_Venda;
     private javax.swing.JButton jButton_Finalizar_Venda;
-    private javax.swing.JButton jButton_Finalizar_Venda_;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;

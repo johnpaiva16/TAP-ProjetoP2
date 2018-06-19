@@ -16,6 +16,7 @@ public class Venda {
     private double desconto;
     private double valorTotal;
     private String data;
+    private String hora;
     private Cliente cliente;
 
     public Venda() {
@@ -97,6 +98,15 @@ public class Venda {
         this.data = data;
     }
 
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+      
     public Cliente getCliente() {
         return cliente;
     }
