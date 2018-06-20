@@ -24,8 +24,8 @@ public class Cliente {
     private int cod;
     @Column
     private String nome;
-    @Column
-    private String cpf;
+    @Column(unique = true, nullable = false)
+    public String cpf;
     @Column
     private String dataNascimento;
     @Column

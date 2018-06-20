@@ -3,9 +3,11 @@ package controller;
 import dao.ClienteDAO;
 import dao.GenericDAO;
 import exception.CPFInvalidoException;
-import exception.CPFJaCadastradoException;
+import java.sql.SQLException;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import model.Cliente;
+import org.hibernate.exception.ConstraintViolationException;
 import util.Utils;
 
 public class ClienteController {
@@ -16,17 +18,13 @@ public class ClienteController {
 
     public ClienteController() {
         dao = new GenericDAO();
+        cDao = new ClienteDAO();
         this.TABLE_NAME = "cliente";
     }
 
-    public void saveClient(Cliente c) throws CPFInvalidoException, CPFJaCadastradoException {
+    public void saveClient(Cliente c) throws CPFInvalidoException,EntityExistsException, SQLException  {
         if (Utils.validaCpf(c.getCpf())) {
-            //Cliente cAux = cDao.findByCpf(c.getCpf());
-            //if (cAux == null) {
-            //    throw new CPFJaCadastradoException("O CPF já está cadastrado.");
-            //} else {
-                dao.save(c);
-           // }
+            dao.save(c);
         } else {
             throw new CPFInvalidoException("CPF inválido.");
         }
@@ -48,7 +46,7 @@ public class ClienteController {
 
     }
 
-    public Cliente findClientByCpf(String cpf) {
+    public Cliente findClientByCpf(String cpf) throws SQLException {
         ClienteDAO cDao = new ClienteDAO();
         return cDao.findByCpf(cpf);
 

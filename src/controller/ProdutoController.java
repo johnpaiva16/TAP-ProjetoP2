@@ -6,7 +6,9 @@
 package controller;
 
 import dao.GenericDAO;
+import java.sql.SQLException;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import model.Produto;
 
 /**
@@ -23,7 +25,7 @@ public class ProdutoController {
         this.TABLE_NAME = "produto";
     }
 
-    public boolean saveProduto(Produto p) {
+    public boolean saveProduto(Produto p) throws EntityExistsException, SQLException {
         p = (Produto) dao.save(p);
         if( p.getCod() != 0){
             return true;

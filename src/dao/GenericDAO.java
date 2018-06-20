@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -41,18 +42,14 @@ public class GenericDAO<T> {
         conn = ConnectionUtilJDBC.getConnection();
     }
 
-    public T save(T obj) {
+    public T save(T obj) throws EntityExistsException, SQLException {
         //JPA HIBERNATE
         if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto) {
-            try {
-                loadEM();
-                em.persist(obj);
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                em.close();
-            }
+            loadEM();
+            em.persist(obj);
+            em.getTransaction().commit();
+            em.close();
+
         } else {
             //JDBC
             if (obj instanceof Venda) {
@@ -62,7 +59,7 @@ public class GenericDAO<T> {
 
                 String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data, hora, cod_cliente) VALUES (?,?,?,?,?,?)";
                 String insertTableItens = "INSERT INTO ItensVenda (cod_produto, qtd_produto, cod_venda) VALUES(?,?,?)";
-                try {
+                
                     loadConectionJDBC();
                     stmt = conn.prepareStatement(insertTableVenda, Statement.RETURN_GENERATED_KEYS);
                     stmt.setDouble(1, v.getSubtotal());
@@ -72,7 +69,7 @@ public class GenericDAO<T> {
                     stmt.setString(5, v.getHora());
                     if (v.getCliente().getCod() != 0) {
                         stmt.setInt(6, v.getCliente().getCod());
-                    }else{
+                    } else {
                         stmt.setNull(6, 0);
                     }
                     stmt.executeUpdate();
@@ -92,10 +89,7 @@ public class GenericDAO<T> {
                         stmt2.executeUpdate();
                     }
                     conn.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-
-                }
+               
 
             }
         }

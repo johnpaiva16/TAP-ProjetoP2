@@ -6,7 +6,9 @@
 package controller;
 
 import dao.GenericDAO;
+import java.sql.SQLException;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import model.Fornecedor;
 
 /**
@@ -23,7 +25,7 @@ public class FornecedorController {
         this.TABLE_NAME = "fornecedor";
     }
 
-    public Fornecedor saveFornecedor(Fornecedor fornecedor) {
+    public Fornecedor saveFornecedor(Fornecedor fornecedor) throws EntityExistsException, SQLException {
             return (Fornecedor) dao.save(fornecedor);
   
     }

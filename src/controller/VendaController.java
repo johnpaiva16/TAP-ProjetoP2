@@ -1,6 +1,8 @@
 package controller;
 
 import dao.GenericDAO;
+import java.sql.SQLException;
+import javax.persistence.EntityExistsException;
 import model.Cliente;
 import model.Venda;
 
@@ -12,7 +14,7 @@ public class VendaController {
 
     private final GenericDAO dao = new GenericDAO();
 
-    public Venda finalizaVenda(Venda venda) {
+    public Venda finalizaVenda(Venda venda) throws EntityExistsException, SQLException {
         if (!venda.getItens().isEmpty()) {
             ClienteController cc = new ClienteController();
             Cliente c = new Cliente();

@@ -7,14 +7,18 @@ package view;
 
 import controller.ClienteController;
 import exception.CPFInvalidoException;
-import exception.CPFJaCadastradoException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityExistsException;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import model.Cliente;
 import model.Endereco;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -22,9 +26,8 @@ import model.Endereco;
  */
 public class TelaClienteCadastro extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaClienteCadastro
-     */
+    ClienteController cc = new ClienteController();
+
     public TelaClienteCadastro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -106,6 +109,11 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
         buttonGroup1.add(jRadioButton_M1);
         jRadioButton_M1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton_M1.setText("M");
+        jRadioButton_M1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton_M1ActionPerformed(evt);
+            }
+        });
 
         jTextField_Telefone_Cliente_1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Telefone_Cliente_1.addActionListener(new java.awt.event.ActionListener() {
@@ -309,17 +317,50 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField_CepActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ClienteController cc = new ClienteController();
-        Cliente c = camposParaObjeto();
+
+        String cpf = jTextField_CPF_Cliente_.getText();
+        
         try {
-            cc.saveClient(c);
-            JOptionPane.showMessageDialog(rootPane, "Cadastro efetuado com sucesso.");
-            dispose();
-        } catch (CPFInvalidoException | CPFJaCadastradoException ex) {
+        Cliente c = cc.findClientByCpf(cpf) ;
+            if (c == null) {
+                incluir();
+            } else {
+                System.out.println("Cod c: "+ c.getCod() +"\n Cod end: "+c.getEndereco().getCod());
+                alterar(c.getCod(), c.getEndereco().getCod());
+            }
+        } catch (CPFInvalidoException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (EntityExistsException | ConstraintViolationException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "O CPF já está cadastrado.");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Erro no banco banco de dados.");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado.");
         }
 
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void incluir() throws CPFInvalidoException, EntityExistsException, SQLException {
+        Cliente c = camposParaObjeto();
+
+        cc.saveClient(c);
+        new TelaCliente().preencheJTable(cc.findAllClients());
+        dispose();
+
+    }
+
+    private void alterar(int codCliente, int codEnd) {
+        Cliente c = camposParaObjeto();
+        c.setCod(codCliente);
+        c.getEndereco().setCod(codEnd);
+        cc.updateClient(c);
+        new TelaCliente().preencheJTable(cc.findAllClients());
+        dispose();
+    }
 
     private Cliente camposParaObjeto() {
         Cliente cAux = new Cliente();
@@ -327,9 +368,9 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
         cAux.setDataNascimento(jTextField_DataNasc_Cliente_.getText());
         cAux.setNome(jTextField_Nome_Cliente_.getText());
 
-        if (jRadioButton_F.isSelected()) {
+        if (jRadioButton_M1.isSelected()) {
             cAux.setSexo("M");
-        } else {
+        } else if (jRadioButton_F.isSelected()) {
             cAux.setSexo("F");
         }
         cAux.setTelefone(jTextField_Telefone_Cliente_1.getText());
@@ -345,15 +386,14 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
         return cAux;
     }
 
-    private boolean checaCampos() {
-
-  //      if(jTextField_CPF_Cliente_.getText().isEmpty() || jTextField_DataNasc_Cliente_.getText().isEmpty() || jTextField_Nome_Cliente_.getText().isEmpty() || )
-        return false;
-    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jRadioButton_M1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_M1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton_M1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -495,6 +535,22 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
 
     public void setjTextField_UF(JTextField jTextField_UF) {
         this.jTextField_UF = jTextField_UF;
+    }
+
+    public JRadioButton getjRadioButton_F() {
+        return jRadioButton_F;
+    }
+
+    public void setjRadioButton_F(JRadioButton jRadioButton_F) {
+        this.jRadioButton_F = jRadioButton_F;
+    }
+
+    public JRadioButton getjRadioButton_M1() {
+        return jRadioButton_M1;
+    }
+
+    public void setjRadioButton_M1(JRadioButton jRadioButton_M1) {
+        this.jRadioButton_M1 = jRadioButton_M1;
     }
 
 }
