@@ -19,17 +19,17 @@ import model.Venda;
  *
  * @author L
  */
-public class TelaRelatorioVenda extends javax.swing.JFrame {
+public class TelaVendaExibir extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaCliente
      */
-    public TelaRelatorioVenda() {
+    public TelaVendaExibir() {
         initComponents();
         try {
             preencheJTable(buscaVendas());
         } catch (SQLException ex) {
-            Logger.getLogger(TelaRelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaVendaExibir.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -58,7 +58,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(6);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jTable_Relatorio_venda_.setModel(new javax.swing.table.DefaultTableModel(
@@ -176,7 +176,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Relatorio de Venda");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(350, 0, 190, 40);
+        jLabel9.setBounds(430, 0, 190, 40);
 
         jButton_Listar.setText("Listar");
         jButton_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -212,7 +212,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         getContentPane().add(jTextField_Codigo1);
         jTextField_Codigo1.setBounds(120, 70, 150, 30);
 
-        jMenu2.setText("Sair");
+        jMenu2.setText("Opções");
 
         jMenuItem_Voltar_Menu_.setText("Voltar para o menu principal");
         jMenuItem_Voltar_Menu_.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +234,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1024, 768));
+        setSize(new java.awt.Dimension(1040, 807));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -256,7 +256,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
             preencheJTable(buscaVendas());
             jTextField_Codigo.setText("");
         } catch (SQLException ex) {
-            Logger.getLogger(TelaRelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaVendaExibir.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_ListarActionPerformed
 
@@ -288,7 +288,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
             lista.add(venda);
             jTextField_Codigo1.setText("");
         } catch (SQLException ex) {
-            Logger.getLogger(TelaRelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaVendaExibir.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista ;
     }
@@ -307,14 +307,38 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaRelatorioVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaExibir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaRelatorioVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaExibir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaRelatorioVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaExibir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaRelatorioVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaExibir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+       //jButton_Buscartor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+       //jButton_Buscartor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+       //jButton_Buscartor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -327,7 +351,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaRelatorioVenda().setVisible(true);
+                new TelaVendaExibir().setVisible(true);
             }
         });
     }

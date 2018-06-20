@@ -48,7 +48,7 @@ public class TelaProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(6);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jTextField_COD_Produto_.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +131,7 @@ public class TelaProduto extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(30, 170, 950, 450);
 
-        jMenu2.setText("Sair");
+        jMenu2.setText("Opções");
 
         jMenuItem_VoltarMenu_.setText("Voltar para o menu principal");
         jMenuItem_VoltarMenu_.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +153,7 @@ public class TelaProduto extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1024, 768));
+        setSize(new java.awt.Dimension(1040, 807));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

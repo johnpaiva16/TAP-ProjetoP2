@@ -39,21 +39,21 @@ public class TelaMenu extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem_Relatorio_Faturamento_ = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem_Vendas_ = new javax.swing.JMenuItem();
-        jMenuItem_RelatorioVenda_ = new javax.swing.JMenuItem();
+        jMenuItem_NovaVenda = new javax.swing.JMenuItem();
+        jMenuItem_ExibirVenda = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem_Fazer_Logoff_ = new javax.swing.JMenuItem();
         jMenuItem_Sair_ = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(6);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/topo-anais-farmacia-2016.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(-100, -240, 1540, 1290);
+        jLabel1.setBounds(-230, -240, 1670, 1290);
 
         jMenu1.setText("Cadastro");
 
@@ -110,23 +110,26 @@ public class TelaMenu extends javax.swing.JFrame {
 
         jMenu2.setText("Vendas");
 
-        jMenuItem_Vendas_.setText("Nova");
-        jMenuItem_Vendas_.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem_NovaVenda.setText("Nova");
+        jMenuItem_NovaVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_Vendas_ActionPerformed(evt);
+                jMenuItem_NovaVendaActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem_Vendas_);
+        jMenu2.add(jMenuItem_NovaVenda);
 
-        jMenuItem_RelatorioVenda_.setText("Exibir");
-        jMenuItem_RelatorioVenda_.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem_ExibirVenda.setText("Exibir");
+        jMenuItem_ExibirVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_RelatorioVenda_ActionPerformed(evt);
+                jMenuItem_ExibirVendaActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem_RelatorioVenda_);
+        jMenu2.add(jMenuItem_ExibirVenda);
 
         jMenuBar1.add(jMenu2);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jMenuItem_NovaVenda.setVisible(false);
+        }
 
         jMenu5.setText("Sair");
 
@@ -150,7 +153,7 @@ public class TelaMenu extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1024, 768));
+        setSize(new java.awt.Dimension(1437, 920));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -182,11 +185,11 @@ public class TelaMenu extends javax.swing.JFrame {
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Fornecedor_ActionPerformed
 
-    private void jMenuItem_RelatorioVenda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_RelatorioVenda_ActionPerformed
-        TelaRelatorioVenda tela = new TelaRelatorioVenda();
+    private void jMenuItem_ExibirVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ExibirVendaActionPerformed
+        TelaVendaExibir tela = new TelaVendaExibir();
         tela.setVisible(true);
         dispose();   // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem_RelatorioVenda_ActionPerformed
+    }//GEN-LAST:event_jMenuItem_ExibirVendaActionPerformed
 
     private void jMenuItem_Relatorio_Faturamento_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Relatorio_Faturamento_ActionPerformed
         TelaRelatorioFaturamento tela = new TelaRelatorioFaturamento();
@@ -194,11 +197,11 @@ public class TelaMenu extends javax.swing.JFrame {
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Relatorio_Faturamento_ActionPerformed
 
-    private void jMenuItem_Vendas_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Vendas_ActionPerformed
-        TelaVenda tela = new TelaVenda();
+    private void jMenuItem_NovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_NovaVendaActionPerformed
+        TelaVendaNova tela = new TelaVendaNova();
         tela.setVisible(true);
         dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem_Vendas_ActionPerformed
+    }//GEN-LAST:event_jMenuItem_NovaVendaActionPerformed
 
     private void jMenuItem_Exibir_Estoque_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Exibir_Estoque_ActionPerformed
         TelaEstoque tela = new TelaEstoque();
@@ -250,14 +253,14 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem_Cliente_;
+    private javax.swing.JMenuItem jMenuItem_ExibirVenda;
     private javax.swing.JMenuItem jMenuItem_Exibir_Estoque_;
     private javax.swing.JMenuItem jMenuItem_Fazer_Logoff_;
     private javax.swing.JMenuItem jMenuItem_Fornecedor_;
+    private javax.swing.JMenuItem jMenuItem_NovaVenda;
     private javax.swing.JMenuItem jMenuItem_Produto_;
-    private javax.swing.JMenuItem jMenuItem_RelatorioVenda_;
     private javax.swing.JMenuItem jMenuItem_Relatorio_Faturamento_;
     private javax.swing.JMenuItem jMenuItem_Sair_;
-    private javax.swing.JMenuItem jMenuItem_Vendas_;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

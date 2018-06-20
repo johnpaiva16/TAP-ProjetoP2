@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.ClienteController;
@@ -30,12 +25,12 @@ import model.Venda;
  *
  * @author L
  */
-public class TelaVenda extends javax.swing.JFrame {
+public class TelaVendaNova extends javax.swing.JFrame {
 
     Venda venda = new Venda();
     Cliente c = null;
 
-    public TelaVenda() {
+    public TelaVendaNova() {
         initComponents();
     }
 
@@ -70,13 +65,13 @@ public class TelaVenda extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(6);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel3.setText("Cod. Item");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(310, 190, 110, 30);
+        jLabel3.setBounds(280, 190, 110, 30);
 
         jLabelNomeCliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabelNomeCliente.setText("Nome do cliente");
@@ -86,9 +81,10 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel7.setText("Subtotal        R$");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(650, 310, 130, 30);
+        jLabel7.setBounds(650, 320, 130, 30);
 
         jTextField_Nome_Cliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextField_Nome_Cliente.setEnabled(false);
         jTextField_Nome_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_Nome_ClienteActionPerformed(evt);
@@ -100,17 +96,18 @@ public class TelaVenda extends javax.swing.JFrame {
 
         jTextField_COD_Produto_.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         getContentPane().add(jTextField_COD_Produto_);
-        jTextField_COD_Produto_.setBounds(400, 190, 140, 28);
+        jTextField_COD_Produto_.setBounds(370, 190, 140, 28);
 
         jTextField_Subtotal.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Subtotal.setText("0.00");
+        jTextField_Subtotal.setEnabled(false);
         jTextField_Subtotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_SubtotalActionPerformed(evt);
             }
         });
         getContentPane().add(jTextField_Subtotal);
-        jTextField_Subtotal.setBounds(780, 310, 120, 28);
+        jTextField_Subtotal.setBounds(780, 320, 120, 28);
 
         jButton_ADD_Venda_.setText("- Item");
         jButton_ADD_Venda_.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +116,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton_ADD_Venda_);
-        jButton_ADD_Venda_.setBounds(520, 600, 110, 30);
+        jButton_ADD_Venda_.setBounds(540, 610, 90, 30);
 
         jButton_Cancelar_Venda.setText("Cancelar");
         jButton_Cancelar_Venda.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +125,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton_Cancelar_Venda);
-        jButton_Cancelar_Venda.setBounds(660, 550, 210, 30);
+        jButton_Cancelar_Venda.setBounds(660, 560, 250, 30);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -141,7 +138,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(70, 240, 560, 350);
+        jScrollPane1.setBounds(70, 250, 560, 350);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Venda");
@@ -151,17 +148,18 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel8.setText("Valor Total    R$");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(650, 410, 130, 30);
+        jLabel8.setBounds(650, 420, 130, 30);
 
         jTextField_Valor_Total.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Valor_Total.setText("0.00");
+        jTextField_Valor_Total.setEnabled(false);
         jTextField_Valor_Total.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_Valor_TotalActionPerformed(evt);
             }
         });
         getContentPane().add(jTextField_Valor_Total);
-        jTextField_Valor_Total.setBounds(780, 410, 120, 28);
+        jTextField_Valor_Total.setBounds(780, 420, 120, 28);
 
         jButton_ADD_Venda_1.setText("+ Item");
         jButton_ADD_Venda_1.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +168,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton_ADD_Venda_1);
-        jButton_ADD_Venda_1.setBounds(560, 190, 70, 30);
+        jButton_ADD_Venda_1.setBounds(550, 190, 80, 30);
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -184,17 +182,18 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel10.setText("Desconto      R$");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(650, 360, 120, 30);
+        jLabel10.setBounds(650, 370, 120, 30);
 
         jTextField_Desconto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField_Desconto.setText("0.00");
+        jTextField_Desconto.setEnabled(false);
         jTextField_Desconto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_DescontoActionPerformed(evt);
             }
         });
         getContentPane().add(jTextField_Desconto);
-        jTextField_Desconto.setBounds(780, 360, 120, 28);
+        jTextField_Desconto.setBounds(780, 370, 120, 28);
 
         jButton_Finalizar_Venda.setText("Finalizar Venda");
         jButton_Finalizar_Venda.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +202,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton_Finalizar_Venda);
-        jButton_Finalizar_Venda.setBounds(660, 500, 210, 30);
+        jButton_Finalizar_Venda.setBounds(660, 510, 250, 30);
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel5.setText("CPF do cliente");
@@ -214,7 +213,7 @@ public class TelaVenda extends javax.swing.JFrame {
         getContentPane().add(jTextField_CPF_Cliente);
         jTextField_CPF_Cliente.setBounds(210, 60, 162, 30);
 
-        jMenu2.setText("Sair");
+        jMenu2.setText("Opções");
 
         jMenuItem2.setText("Voltar para o menu principal");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +235,7 @@ public class TelaVenda extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1024, 768));
+        setSize(new java.awt.Dimension(1040, 807));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -283,19 +282,27 @@ public class TelaVenda extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         try {
-            if (JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja finalizar a venda?") == JOptionPane.YES_OPTION) {
-                venda.setData(dtf.format(LocalDate.now()));
-                venda.setHora(sdf.format(new Date()));
+            if (vc.finalizaVenda(venda) != null) {
+                double dinheiro = 0;
+                do {
+                    dinheiro = Double.parseDouble(JOptionPane.showInputDialog("Dinheiro pago: R$", ""));
+                    if (dinheiro < venda.getValorTotal()) {
+                        JOptionPane.showMessageDialog(rootPane, "O valor em dinheiro informado é menor que o valor total da venda. Tente novamente.");
+                    }
+                } while (dinheiro < venda.getValorTotal());
+                if (JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja finalizar a venda?") == JOptionPane.YES_OPTION) {
+                    venda.setData(dtf.format(LocalDate.now()));
+                    venda.setHora(sdf.format(new Date()));
 
-                if (vc.finalizaVenda(venda) != null) {
+                    JOptionPane.showMessageDialog(rootPane, "Troco: \nR$ " + (dinheiro - venda.getValorTotal()));
                     JOptionPane.showMessageDialog(rootPane, "Venda finalizada com sucesso. \nCódigo da venda: " + venda.getCod());
 
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível finalizar a venda.");
+                    limpa();
+                    venda = new Venda();
 
                 }
-                limpa();
-                venda = new Venda();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível finalizar uma venda sem nenhum item.");
 
             }
 
@@ -319,7 +326,7 @@ public class TelaVenda extends javax.swing.JFrame {
                 jTextField_Nome_Cliente.setText(c.getNome());
                 venda.aplicaDesconto();
                 atualizaValoresTela();
-            }else{
+            } else {
                 throw new NoResultException();
             }
 
@@ -367,21 +374,23 @@ public class TelaVenda extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaNova.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaNova.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaNova.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVendaNova.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaVenda().setVisible(true);
+                new TelaVendaNova().setVisible(true);
             }
         });
     }
@@ -423,6 +432,7 @@ public class TelaVenda extends javax.swing.JFrame {
                 venda.adicionaItem(item);
                 atualizaValoresTela();
                 preencheJTable(item);
+                jTextField_COD_Produto_.setText("");
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Atenção: O código de produto não está cadastrado.");
             }

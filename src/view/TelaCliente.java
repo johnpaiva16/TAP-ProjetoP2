@@ -9,8 +9,6 @@ import controller.ClienteController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +25,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
     public TelaCliente() {
         initComponents();
+        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         preencheJTable(controller.findAllClients());
     }
 
@@ -51,8 +50,8 @@ public class TelaCliente extends javax.swing.JFrame {
         jMenuItem_Fazer_Logoff_ = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setExtendedState(6);
-        setUndecorated(true);
+        setExtendedState(3);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -85,6 +84,9 @@ public class TelaCliente extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Novo_Cliente_);
         jButton_Novo_Cliente_.setBounds(710, 670, 90, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Novo_Cliente_.setVisible(false);
+        }
 
         jButton_Editar_Cliente_.setText("Editar");
         jButton_Editar_Cliente_.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +96,9 @@ public class TelaCliente extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Editar_Cliente_);
         jButton_Editar_Cliente_.setBounds(820, 670, 90, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Editar_Cliente_.setVisible(false);
+        }
 
         jButton_Excluir_Cliente_.setText("Excluir");
         jButton_Excluir_Cliente_.addActionListener(new java.awt.event.ActionListener() {
@@ -103,6 +108,9 @@ public class TelaCliente extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Excluir_Cliente_);
         jButton_Excluir_Cliente_.setBounds(930, 670, 90, 30);
+        if(!TelaLog.getUsuario().isAdmin()){
+            jButton_Excluir_Cliente_.setVisible(false);
+        }
 
         jButton_Listar_Cliente_.setText("Listar");
         jButton_Listar_Cliente_.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +143,7 @@ public class TelaCliente extends javax.swing.JFrame {
         getContentPane().add(jLabel8);
         jLabel8.setBounds(670, 20, 350, 250);
 
-        jMenu2.setText("Sair");
+        jMenu2.setText("Opções");
 
         jMenuItem_VoltarMenu_.setText("Voltar para o menu principal");
         jMenuItem_VoltarMenu_.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +165,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1154, 814));
+        setSize(new java.awt.Dimension(1083, 813));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -191,11 +199,11 @@ public class TelaCliente extends javax.swing.JFrame {
             Cliente c = controller.findClientByCpf((String) jTable_Cliente_.getValueAt(row, 0));
             tcc.getjTextField_CPF_Cliente_().setText(c.getCpf());
             tcc.getjTextField_CPF_Cliente_().setEnabled(false);
-            
+
             tcc.getjTextField_Nome_Cliente_().setText(c.getNome());
             if (c.getSexo().equals("M")) {
                 tcc.getjRadioButton_M1().setSelected(true);
-            } else if (c.getSexo().equals("F")){
+            } else if (c.getSexo().equals("F")) {
                 tcc.getjRadioButton_F().setSelected(true);
             }
             tcc.getjTextField_DataNasc_Cliente_().setText(c.getDataNascimento());
@@ -206,7 +214,7 @@ public class TelaCliente extends javax.swing.JFrame {
             tcc.getjTextField_UF().setText(c.getEndereco().getEstado());
             tcc.getjTextField_Cep().setText(c.getEndereco().getCep());
             tcc.setVisible(true);
-            
+
             preencheJTable(controller.findAllClients());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro no banco de dados.\n" + ex.getMessage());
@@ -280,6 +288,7 @@ public class TelaCliente extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Editar_Cliente_;
