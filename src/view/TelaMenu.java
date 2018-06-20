@@ -37,10 +37,10 @@ public class TelaMenu extends javax.swing.JFrame {
         jMenuItem_Exibir_Estoque_ = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem_RelatorioVenda_ = new javax.swing.JMenuItem();
         jMenuItem_Relatorio_Faturamento_ = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem_Vendas_ = new javax.swing.JMenuItem();
+        jMenuItem_RelatorioVenda_ = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem_Fazer_Logoff_ = new javax.swing.JMenuItem();
         jMenuItem_Sair_ = new javax.swing.JMenuItem();
@@ -96,14 +96,6 @@ public class TelaMenu extends javax.swing.JFrame {
 
         jMenu4.setText("Relatorio");
 
-        jMenuItem_RelatorioVenda_.setText("Vendas");
-        jMenuItem_RelatorioVenda_.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_RelatorioVenda_ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem_RelatorioVenda_);
-
         jMenuItem_Relatorio_Faturamento_.setText("Faturamento");
         jMenuItem_Relatorio_Faturamento_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,13 +110,21 @@ public class TelaMenu extends javax.swing.JFrame {
 
         jMenu2.setText("Vendas");
 
-        jMenuItem_Vendas_.setText("Nova Venda");
+        jMenuItem_Vendas_.setText("Nova");
         jMenuItem_Vendas_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_Vendas_ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem_Vendas_);
+
+        jMenuItem_RelatorioVenda_.setText("Exibir");
+        jMenuItem_RelatorioVenda_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_RelatorioVenda_ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem_RelatorioVenda_);
 
         jMenuBar1.add(jMenu2);
 

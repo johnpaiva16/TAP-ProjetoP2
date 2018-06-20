@@ -127,7 +127,7 @@ public class GenericDAO<T> {
 
         } else {
             if (tableName.toLowerCase().equals("venda")) {
-                
+
                 list = new ArrayList<>();
                 loadConectionJDBC();
                 sql = "SELECT * FROM venda";
@@ -143,8 +143,8 @@ public class GenericDAO<T> {
                     v.setData(rs.getString(5));
                     v.setHora(rs.getString(6));
                     v.getCliente().setCod(rs.getInt(7));
-                    list.add((T)v);
-                    
+                    list.add((T) v);
+
                 }
             }
         }
@@ -154,32 +154,30 @@ public class GenericDAO<T> {
     public void delete(T t) {
 
         if (t instanceof Cliente || t instanceof Fornecedor || t instanceof Produto) {
-            try {
-                loadEM();
-                Object obj = null;
-                if (t instanceof Cliente) {
-                    obj = em.find(Cliente.class, ((Cliente) t).getCod());
 
-                } else if (t instanceof Fornecedor) {
-                    obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
-                } else if (t instanceof Produto) {
-                    obj = em.find(Produto.class, ((Produto) t).getCod());
-                }
-                em.remove(obj);
-                em.getTransaction().commit();
+            loadEM();
+            Object obj = null;
+            if (t instanceof Cliente) {
+                obj = em.find(Cliente.class, ((Cliente) t).getCod());
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                em.close();
+            } else if (t instanceof Fornecedor) {
+                obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
+            } else if (t instanceof Produto) {
+                obj = em.find(Produto.class, ((Produto) t).getCod());
             }
+            em.remove(obj);
+            em.getTransaction().commit();
+
+            em.close();
+
         }
 
     }
 
-    public T findByCod(int cod, String tableName) {
+    public T findByCod(int cod, String tableName) throws SQLException {
+        tableName = tableName.toLowerCase();
         Object obj = null;
-        try {
+        if (tableName.equals("cliente") || tableName.equals("fornecedor") || tableName.equals("produto")) {
             loadEM();
             if (tableName.toLowerCase().equals("produto")) {
                 obj = em.find(Produto.class, cod);
@@ -189,11 +187,26 @@ public class GenericDAO<T> {
                 obj = em.find(Fornecedor.class, cod);
             }
             em.getTransaction().commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             em.close();
+        } else {
+            if (tableName.equals("venda")) {
+                loadConectionJDBC();
+                String sql = "SELECT * FROM venda WHERE cod = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, cod);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    Venda v = new Venda();
+                    v.setCod(rs.getInt(1));
+                    v.setSubtotal(rs.getDouble(2));
+                    v.setDesconto(rs.getDouble(3));
+                    v.setValorTotal(rs.getDouble(4));
+                    v.setData(rs.getString(5));
+                    v.setHora(rs.getString(6));
+                    v.getCliente().setCod(rs.getInt(7));
+                    obj = v;
+                }
+            }
         }
         return (T) obj;
     }

@@ -8,6 +8,7 @@ package view;
 import controller.ClienteController;
 import controller.VendaController;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,10 +45,12 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Relatorio_venda_ = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton_Listar = new javax.swing.JButton();
+        jButton_Buscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextField_Codigo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField_Codigo1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem_Voltar_Menu_ = new javax.swing.JMenuItem();
@@ -175,25 +178,39 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         getContentPane().add(jLabel9);
         jLabel9.setBounds(350, 0, 190, 40);
 
-        jButton1.setText("Listar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Listar.setText("Listar");
+        jButton_Listar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_ListarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(910, 140, 100, 30);
+        getContentPane().add(jButton_Listar);
+        jButton_Listar.setBounds(910, 140, 100, 30);
 
-        jButton2.setText("Buscar");
-        getContentPane().add(jButton2);
-        jButton2.setBounds(240, 140, 100, 30);
+        jButton_Buscar.setText("Buscar");
+        jButton_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_BuscarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Buscar);
+        jButton_Buscar.setBounds(290, 140, 100, 30);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jLabel1.setText("Código:");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(10, 140, 60, 30);
         getContentPane().add(jTextField_Codigo);
-        jTextField_Codigo.setBounds(70, 140, 150, 30);
+        jTextField_Codigo.setBounds(120, 140, 150, 30);
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel2.setText("Faturamento: R$");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(10, 70, 110, 30);
+
+        jTextField_Codigo1.setEnabled(false);
+        getContentPane().add(jTextField_Codigo1);
+        jTextField_Codigo1.setBounds(120, 70, 150, 30);
 
         jMenu2.setText("Sair");
 
@@ -233,23 +250,47 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Fazer_Logoff_ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_ListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ListarActionPerformed
 
         try {
             preencheJTable(buscaVendas());
+            jTextField_Codigo.setText("");
         } catch (SQLException ex) {
             Logger.getLogger(TelaRelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton_ListarActionPerformed
+
+    private void jButton_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BuscarActionPerformed
+        preencheJTable(buscaVendaByCod());
+
+    }//GEN-LAST:event_jButton_BuscarActionPerformed
 
     private List<Venda> buscaVendas() throws SQLException {
         VendaController vc = new VendaController();
         ClienteController cc = new ClienteController();
         List<Venda> vendas = vc.findAllVendas();
+        double somaValor = 0;
         for (Venda v : vendas) {
             v.setCliente(cc.findClientByCod(v.getCliente().getCod()));
+            somaValor += v.getValorTotal();
         }
+        jTextField_Codigo1.setText(String.valueOf(somaValor));
         return vendas;
+    }
+
+    private List<Venda> buscaVendaByCod() {
+        VendaController vc = new VendaController();
+        ClienteController cc = new ClienteController();
+        List<Venda> lista = new ArrayList<Venda>();
+        try {
+            Venda venda = vc.findVendaByCod(Integer.parseInt(jTextField_Codigo.getText()));
+            venda.setCliente(cc.findClientByCod(venda.getCliente().getCod()));
+            lista.add(venda);
+            jTextField_Codigo1.setText("");
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaRelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista ;
     }
 
     public static void main(String args[]) {
@@ -280,7 +321,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
+       //jButton_Buscartor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -292,9 +333,10 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton_Buscar;
+    private javax.swing.JButton jButton_Listar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -303,6 +345,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Relatorio_venda_;
     private javax.swing.JTextField jTextField_Codigo;
+    private javax.swing.JTextField jTextField_Codigo1;
     // End of variables declaration//GEN-END:variables
 
     private void preencheJTable(List<Venda> vendas) {
@@ -320,7 +363,7 @@ public class TelaRelatorioVenda extends javax.swing.JFrame {
             if (v.getCliente() != null) {
                 rowData[6] = v.getCliente().getCpf();
                 rowData[7] = v.getCliente().getNome();
-            }else{
+            } else {
                 rowData[6] = " - ";
                 rowData[7] = " - ";
             }

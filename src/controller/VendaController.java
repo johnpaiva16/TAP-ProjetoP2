@@ -32,9 +32,12 @@ public class VendaController {
         }
         return null;
     }
-    
-    public List<Venda> findAllVendas() throws SQLException{
-       
+
+    public List<Venda> findAllVendas() throws SQLException {
         return dao.findAll(TABLE_NAME);
+    }
+
+    public Venda findVendaByCod(int cod) throws SQLException {
+        return (Venda) dao.findByCod(cod, TABLE_NAME);
     }
 }

@@ -55,14 +55,6 @@
                 <Property name="text" type="java.lang.String" value="Relatorio"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_RelatorioVenda_">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Vendas"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_RelatorioVenda_ActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_Relatorio_Faturamento_">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Faturamento"/>
@@ -82,10 +74,18 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_Vendas_">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nova Venda"/>
+                <Property name="text" type="java.lang.String" value="Nova"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_Vendas_ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_RelatorioVenda_">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exibir"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_RelatorioVenda_ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
