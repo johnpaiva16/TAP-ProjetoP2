@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -59,37 +60,36 @@ public class GenericDAO<T> {
 
                 String insertTableVenda = "INSERT INTO Venda (subtotal, desconto, valorTotal, data, hora, cod_cliente) VALUES (?,?,?,?,?,?)";
                 String insertTableItens = "INSERT INTO ItensVenda (cod_produto, qtd_produto, cod_venda) VALUES(?,?,?)";
-                
-                    loadConectionJDBC();
-                    stmt = conn.prepareStatement(insertTableVenda, Statement.RETURN_GENERATED_KEYS);
-                    stmt.setDouble(1, v.getSubtotal());
-                    stmt.setDouble(2, v.getDesconto());
-                    stmt.setDouble(3, v.getValorTotal());
-                    stmt.setString(4, v.getData());
-                    stmt.setString(5, v.getHora());
-                    if (v.getCliente().getCod() != 0) {
-                        stmt.setInt(6, v.getCliente().getCod());
-                    } else {
-                        stmt.setNull(6, 0);
-                    }
-                    stmt.executeUpdate();
 
-                    ResultSet rs = stmt.getGeneratedKeys();
-                    if (rs.next()) {
-                        v.setCod(rs.getInt(1));
-                    }
+                loadConectionJDBC();
+                stmt = conn.prepareStatement(insertTableVenda, Statement.RETURN_GENERATED_KEYS);
+                stmt.setDouble(1, v.getSubtotal());
+                stmt.setDouble(2, v.getDesconto());
+                stmt.setDouble(3, v.getValorTotal());
+                stmt.setString(4, v.getData());
+                stmt.setString(5, v.getHora());
+                if (v.getCliente().getCod() != 0) {
+                    stmt.setInt(6, v.getCliente().getCod());
+                } else {
+                    stmt.setNull(6, 0);
+                }
+                stmt.executeUpdate();
 
-                    PreparedStatement stmt2 = conn.prepareStatement(insertTableItens);
-                    List<ItemVenda> itens = v.getItens();
-                    for (ItemVenda item : itens) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    v.setCod(rs.getInt(1));
+                }
 
-                        stmt2.setInt(1, item.getProduto().getCod());
-                        stmt2.setInt(2, item.getQtd());
-                        stmt2.setInt(3, v.getCod());
-                        stmt2.executeUpdate();
-                    }
-                    conn.close();
-               
+                PreparedStatement stmt2 = conn.prepareStatement(insertTableItens);
+                List<ItemVenda> itens = v.getItens();
+                for (ItemVenda item : itens) {
+
+                    stmt2.setInt(1, item.getProduto().getCod());
+                    stmt2.setInt(2, item.getQtd());
+                    stmt2.setInt(3, v.getCod());
+                    stmt2.executeUpdate();
+                }
+                conn.close();
 
             }
         }
@@ -98,38 +98,55 @@ public class GenericDAO<T> {
 
     public T update(T obj) {
         if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto) {
-            try {
-                loadEM();
-                em.merge(obj);
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                em.close();
-            }
+
+            loadEM();
+            em.merge(obj);
+            em.getTransaction().commit();
+            em.close();
+
         } else {
+
         }
         return obj;
     }
 
-    public List<T> findAll(String tableName) {
+    public List<T> findAll(String tableName) throws SQLException {
         tableName = tableName.toLowerCase();
         List<T> list = null;
         String sql = "";
 
         if (tableName.equals("cliente") || tableName.equals("fornecedor") || tableName.equals("produto")) {
-            try {
-                loadEM();
-                sql = "SELECT " + tableName + " FROM " + StringUtils.capitalize(tableName) + " " + tableName;
-                Query q = em.createQuery(sql);
-                list = q.getResultList();
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                em.close();
-            }
+
+            loadEM();
+            sql = "SELECT " + tableName + " FROM " + StringUtils.capitalize(tableName) + " " + tableName;
+            Query q = em.createQuery(sql);
+            list = q.getResultList();
+            em.getTransaction().commit();
+
+            em.close();
+
         } else {
+            if (tableName.toLowerCase().equals("venda")) {
+                
+                list = new ArrayList<>();
+                loadConectionJDBC();
+                sql = "SELECT * FROM venda";
+
+                stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    Venda v = new Venda();
+                    v.setCod(rs.getInt(1));
+                    v.setSubtotal(rs.getDouble(2));
+                    v.setDesconto(rs.getDouble(3));
+                    v.setValorTotal(rs.getDouble(4));
+                    v.setData(rs.getString(5));
+                    v.setHora(rs.getString(6));
+                    v.getCliente().setCod(rs.getInt(7));
+                    list.add((T)v);
+                    
+                }
+            }
         }
         return list;
     }

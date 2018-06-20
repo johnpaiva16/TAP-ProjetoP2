@@ -2,6 +2,7 @@ package controller;
 
 import dao.GenericDAO;
 import java.sql.SQLException;
+import java.util.List;
 import javax.persistence.EntityExistsException;
 import model.Cliente;
 import model.Venda;
@@ -12,6 +13,7 @@ import model.Venda;
  */
 public class VendaController {
 
+    private final String TABLE_NAME = "venda";
     private final GenericDAO dao = new GenericDAO();
 
     public Venda finalizaVenda(Venda venda) throws EntityExistsException, SQLException {
@@ -29,5 +31,10 @@ public class VendaController {
             }
         }
         return null;
+    }
+    
+    public List<Venda> findAllVendas() throws SQLException{
+       
+        return dao.findAll(TABLE_NAME);
     }
 }

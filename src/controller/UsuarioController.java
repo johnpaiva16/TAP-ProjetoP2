@@ -6,6 +6,7 @@
 package controller;
 
 import dao.UsuarioDAO;
+import java.sql.SQLException;
 import model.Usuario;
 
 /**
@@ -16,7 +17,7 @@ public class UsuarioController {
     
     UsuarioDAO uDao = new UsuarioDAO();
     
-    public Usuario authenticate(String login, String senha){
+    public Usuario authenticate(String login, String senha) throws SQLException{
         Usuario u = null;
         if(uDao.findUsuario(login) != null){
             u = uDao.findUsuario(login);

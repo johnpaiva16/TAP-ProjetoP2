@@ -8,6 +8,7 @@ package view;
 import controller.ClienteController;
 import controller.ProdutoController;
 import controller.VendaController;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -265,7 +266,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jTextField_COD_Produto_.setText("");
         jTextField_CPF_Cliente.setText("");
         jTextField_Nome_Cliente.setText("");
-        atualizaValores();
+        atualizaValoresTela();
 
     }
     private void jButton_ADD_Venda_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ADD_Venda_ActionPerformed
@@ -295,13 +296,13 @@ public class TelaVenda extends javax.swing.JFrame {
                 }
                 limpa();
                 venda = new Venda();
-               
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Erro inesperado. Tente novamente e se o problema persistir, entre em contato com o suporte técnico.");
-           
+
         }
     }//GEN-LAST:event_jButton_Finalizar_VendaActionPerformed
 
@@ -309,16 +310,26 @@ public class TelaVenda extends javax.swing.JFrame {
         ClienteController cc = new ClienteController();
 
         try {
-            Cliente auxC = cc.findClientByCpf(jTextField_CPF_Cliente.getText());
+            Cliente auxC = null;
+            auxC = cc.findClientByCpf(jTextField_CPF_Cliente.getText());
+
             if (auxC != null) {
                 c = auxC;
                 venda.setCliente(c);
                 jTextField_Nome_Cliente.setText(c.getNome());
+                venda.aplicaDesconto();
+                atualizaValoresTela();
+            }else{
+                throw new NoResultException();
             }
 
         } catch (NoResultException e) {
             JOptionPane.showMessageDialog(rootPane, "CPF não encontrado.");
             jTextField_CPF_Cliente.setText(c.getCpf());
+        } catch (SQLException ex) {
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado.");
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -410,7 +421,7 @@ public class TelaVenda extends javax.swing.JFrame {
             if (p != null) {
                 ItemVenda item = new ItemVenda(p, 1);
                 venda.adicionaItem(item);
-                atualizaValores();
+                atualizaValoresTela();
                 preencheJTable(item);
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Atenção: O código de produto não está cadastrado.");
@@ -437,11 +448,11 @@ public class TelaVenda extends javax.swing.JFrame {
         int row = jTable1.getSelectedRow();
         venda.removeItem(row);
         model.removeRow(row);
-        atualizaValores();
+        atualizaValoresTela();
 
     }
 
-    private void atualizaValores() {
+    private void atualizaValoresTela() {
         jTextField_Subtotal.setText(String.valueOf(venda.getSubtotal()));
         jTextField_Desconto.setText(String.valueOf(venda.getDesconto()));
         jTextField_Valor_Total.setText(String.valueOf(venda.getValorTotal()));

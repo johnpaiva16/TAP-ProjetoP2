@@ -6,9 +6,14 @@
 package view;
 
 import controller.ProdutoController;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityExistsException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.Produto;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -138,19 +143,30 @@ public class TelaProdutoCadastro extends javax.swing.JDialog {
 
     private void jButton_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalvarActionPerformed
         TelaProduto tp = new TelaProduto();
-        
-        if (jTextField_COD_Produto_.getText().isEmpty()) {
-            Produto p = criaObjetoProduto();
-            if(p != null){
-                controller.saveProduto(p);
-                
+        try {
+            System.out.println("Ok");
+            if (jTextField_COD_Produto_.getText().isEmpty()) {
+                Produto p = criaObjetoProduto();
+                if (p != null) {
+
+                    if (controller.saveProduto(p));
+                }
+            } else {
+                Produto p = criaObjetoProduto();
+                if (p != null) {
+                    controller.updateProduto(p);
+
+                }
             }
-        } else {
-            Produto p = criaObjetoProduto();
-            if(p != null){
-                controller.updateProduto(p); 
-                
-            }
+        } catch (EntityExistsException | ConstraintViolationException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "O produto já está cadastrado.");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Erro no banco banco de dados.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado.");
         }
         tp.preencheJTable();
     }//GEN-LAST:event_jButton_SalvarActionPerformed
@@ -159,23 +175,20 @@ public class TelaProdutoCadastro extends javax.swing.JDialog {
         Produto p = null;
         if (!jTextField_Descricao_Produto_.getText().isEmpty() && !jTextField_Preco_Produto.getText().isEmpty()) {
 
-            try {
-                p = new Produto();
+            p = new Produto();
+            if (!jTextField_COD_Produto_.getText().isEmpty()) {
                 p.setCod(Integer.parseInt(jTextField_COD_Produto_.getText()));
-                p.setDescricao(jTextField_Descricao_Produto_.getText());
-                p.setPreco(Double.parseDouble(jTextField_Preco_Produto.getText()));
-                System.out.println(p.getCod());
-                dispose();
-                return p;
-               
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(rootPane, e.getMessage());
             }
+            p.setDescricao(String.valueOf(jTextField_Descricao_Produto_.getText()));
+            p.setPreco(Double.parseDouble(jTextField_Preco_Produto.getText()));
+            System.out.println(p.getCod());
+            dispose();
+            return p;
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "Favor, preencha todos os campos.");
         }
-        return null;
+        return p;
     }
 
     public static void main(String args[]) {

@@ -29,13 +29,16 @@ public class Venda {
 
     public void adicionaItem(ItemVenda item) {
         itens.add(item);
-        calculaDesconto();
-        calculaSubtotal();
-        calculaTotal();
+        aplicaDesconto();
     }
-    
+
     public void removeItem(int index) {
         itens.remove(index);
+        aplicaDesconto();
+    }
+
+    
+        public void aplicaDesconto(){
         calculaDesconto();
         calculaSubtotal();
         calculaTotal();
@@ -52,10 +55,10 @@ public class Venda {
     private void calculaTotal() {
         valorTotal = subtotal - desconto;
     }
-    
-     private void calculaDesconto() {
-        if (cliente.getCod() != 0){
-            this.desconto = subtotal*0.05;
+
+    private void calculaDesconto() {
+        if (cliente.getCod() != 0) {
+            this.desconto = subtotal * 0.05;
         }
     }
 
@@ -115,7 +118,6 @@ public class Venda {
         this.hora = hora;
     }
 
-      
     public Cliente getCliente() {
         return cliente;
     }
@@ -124,7 +126,4 @@ public class Venda {
         this.cliente = cliente;
     }
 
-   
-    
-    
 }
