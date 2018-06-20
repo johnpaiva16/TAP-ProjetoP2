@@ -319,13 +319,13 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String cpf = jTextField_CPF_Cliente_.getText();
-        
+
         try {
-        Cliente c = cc.findClientByCpf(cpf) ;
+            Cliente c = cc.findClientByCpf(cpf);
             if (c == null) {
                 incluir();
             } else {
-                System.out.println("Cod c: "+ c.getCod() +"\n Cod end: "+c.getEndereco().getCod());
+                System.out.println("Cod c: " + c.getCod() + "\n Cod end: " + c.getEndereco().getCod());
                 alterar(c.getCod(), c.getEndereco().getCod());
             }
         } catch (CPFInvalidoException ex) {
@@ -354,11 +354,16 @@ public class TelaClienteCadastro extends javax.swing.JDialog {
     }
 
     private void alterar(int codCliente, int codEnd) {
-        Cliente c = camposParaObjeto();
-        c.setCod(codCliente);
-        c.getEndereco().setCod(codEnd);
-        cc.updateClient(c);
-        new TelaCliente().preencheJTable(cc.findAllClients());
+
+        try {
+            Cliente c = camposParaObjeto();
+            c.setCod(codCliente);
+            c.getEndereco().setCod(codEnd);
+            cc.updateClient(c);
+            new TelaCliente().preencheJTable(cc.findAllClients());
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaClienteCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dispose();
     }
 

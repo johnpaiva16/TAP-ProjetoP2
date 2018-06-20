@@ -37,11 +37,11 @@ public class ClienteController {
         return null;
     }
 
-    public List<Cliente> findAllClients() {
+    public List<Cliente> findAllClients() throws SQLException {
         return dao.findAll(TABLE_NAME);
     }
 
-    public Cliente findClientByCod(int id) {
+    public Cliente findClientByCod(int id) throws SQLException {
         return (Cliente) dao.findByCod(id, TABLE_NAME);
 
     }
@@ -52,7 +52,7 @@ public class ClienteController {
 
     }
 
-    public void deleteClient(int id) {
+    public void deleteClient(int id) throws SQLException {
         Cliente c = findClientByCod(id);
         dao.delete(c);
     }

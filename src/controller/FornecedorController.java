@@ -34,16 +34,16 @@ public class FornecedorController {
         return (Fornecedor) dao.update(fornecedor);
     }
 
-    public List<Fornecedor> findAllFornecedores() {
+    public List<Fornecedor> findAllFornecedores() throws SQLException {
         return dao.findAll(TABLE_NAME);
     }
 
-    public Fornecedor findFornecedorByCod(int id) {
+    public Fornecedor findFornecedorByCod(int id) throws SQLException {
         return (Fornecedor) dao.findByCod(id, TABLE_NAME);
 
     }
 
-    public void deleteFornecedor(int id) {
+    public void deleteFornecedor(int id) throws SQLException {
         Fornecedor f = findFornecedorByCod(id);
         dao.delete(f);
     }

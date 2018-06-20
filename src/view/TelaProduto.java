@@ -6,7 +6,10 @@
 package view;
 
 import controller.ProdutoController;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -21,13 +24,12 @@ public class TelaProduto extends javax.swing.JFrame {
 
     protected ProdutoController controller = new ProdutoController();
 
-    public TelaProduto() {
+    public TelaProduto() throws SQLException {
         initComponents();
         preencheJTable();
         // TelaProdutoCadastro tpc = new TelaProdutoCadastro(this,true);
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -178,11 +180,15 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Novo_Produto_ActionPerformed
 
     private void jButton_Listar_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Listar_Produto_ActionPerformed
-        preencheJTable();
+        try {
+            preencheJTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton_Listar_Produto_ActionPerformed
 
-    protected void preencheJTable() {
+    protected void preencheJTable() throws SQLException {
         DefaultTableModel model = (DefaultTableModel) jTable_produto.getModel();
         model.setNumRows(0);
         List<Produto> listaProdutos = controller.findAllProdutos();
@@ -200,20 +206,27 @@ public class TelaProduto extends javax.swing.JFrame {
         int row = jTable_produto.getSelectedRow();
         TelaProdutoCadastro dialog = new TelaProdutoCadastro(new JFrame(), true);
 
-        dialog.getjTextField_COD_Produto_().setText((String.valueOf(jTable_produto.getValueAt(row, 0))));
-        dialog.getjTextField_Descricao_Produto_().setText((String.valueOf(jTable_produto.getValueAt(row, 1).toString())));
-        dialog.getjTextField_Preco_Produto().setText((String.valueOf(jTable_produto.getValueAt(row, 2))));
-        dialog.setLocationRelativeTo(null);
-        dialog.getjTextField_COD_Produto_().setEnabled(false);
-        dialog.setVisible(true);
+        if (jTable_produto.isRowSelected(row)) {
+            dialog.getjTextField_COD_Produto_().setText((String.valueOf(jTable_produto.getValueAt(row, 0))));
+            dialog.getjTextField_Descricao_Produto_().setText((String.valueOf(jTable_produto.getValueAt(row, 1).toString())));
+            dialog.getjTextField_Preco_Produto().setText((String.valueOf(jTable_produto.getValueAt(row, 2))));
+            dialog.setLocationRelativeTo(null);
+            dialog.getjTextField_COD_Produto_().setEnabled(false);
+            dialog.setVisible(true);
+        }
     }//GEN-LAST:event_jButton_Editar_Produto_ActionPerformed
 
     private void jButton_Excluir_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Excluir_Produto_ActionPerformed
         int row = jTable_produto.getSelectedRow();
         int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir este produto?");
         if (op == JOptionPane.YES_OPTION) {
-            controller.deleteProduto((int) jTable_produto.getValueAt(row, 0));
-            preencheJTable();
+            try {
+                controller.deleteProduto((int) jTable_produto.getValueAt(row, 0));
+                preencheJTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_jButton_Excluir_Produto_ActionPerformed
 
@@ -221,16 +234,22 @@ public class TelaProduto extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTable_produto.getModel();
         model.setNumRows(0);
-        Produto p = controller.findProdutoByCod(Integer.parseInt(jTextField_COD_Produto_.getText()));
-        if (p != null) {
-            Object rowData[] = new Object[3];
-            rowData[0] = p.getCod();
-            rowData[1] = p.getDescricao();
-            rowData[2] = p.getPreco();
-            model.addRow(rowData);
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Código de produto não encontrado.");
+        Produto p;
+        try {
+            p = controller.findProdutoByCod(Integer.parseInt(jTextField_COD_Produto_.getText()));
+            if (p != null) {
+                Object rowData[] = new Object[3];
+                rowData[0] = p.getCod();
+                rowData[1] = p.getDescricao();
+                rowData[2] = p.getPreco();
+                model.addRow(rowData);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Código de produto não encontrado.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton_Pesquisa_Produto_ActionPerformed
 
     private void jTextField_COD_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_COD_Produto_ActionPerformed
@@ -267,7 +286,11 @@ public class TelaProduto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaProduto().setVisible(true);
+                try {
+                    new TelaProduto().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(TelaProduto.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

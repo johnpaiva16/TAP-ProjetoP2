@@ -9,6 +9,7 @@ import dao.GenericDAO;
 import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityExistsException;
+import model.Estoque;
 import model.Produto;
 
 /**
@@ -26,9 +27,16 @@ public class ProdutoController {
     }
 
     public boolean saveProduto(Produto p) throws EntityExistsException, SQLException {
+        Estoque itemE = new Estoque();
+        EstoqueController estoqueController = new EstoqueController();
+
         p = (Produto) dao.save(p);
-        if( p.getCod() != 0){
+        if (p.getCod() != 0) {
+            itemE.setProduto(p);
+            itemE.setQtd(0);
+            estoqueController.saveProdutoEstoque(itemE);
             return true;
+
         }
         return false;
     }
@@ -37,16 +45,19 @@ public class ProdutoController {
         return (Produto) dao.update(fornecedor);
     }
 
-    public List<Produto> findAllProdutos() {
+    public List<Produto> findAllProdutos() throws SQLException {
         return dao.findAll(TABLE_NAME);
     }
 
-    public Produto findProdutoByCod(int id) {
+    public Produto findProdutoByCod(int id) throws SQLException {
         return (Produto) dao.findByCod(id, TABLE_NAME);
 
     }
 
-    public void deleteProduto(int id) {
+    public void deleteProduto(int id) throws SQLException {
+        EstoqueController estoqueController = new EstoqueController();
+        estoqueController.deleteProdutoEstoque(id);
+     
         Produto p = findProdutoByCod(id);
         dao.delete(p);
     }

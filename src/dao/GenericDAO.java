@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import model.Cliente;
+import model.Estoque;
 import model.Fornecedor;
 import model.ItemVenda;
 import model.Produto;
@@ -45,7 +46,7 @@ public class GenericDAO<T> {
 
     public T save(T obj) throws EntityExistsException, SQLException {
         //JPA HIBERNATE
-        if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto) {
+        if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto || obj instanceof Estoque) {
             loadEM();
             em.persist(obj);
             em.getTransaction().commit();
@@ -97,7 +98,7 @@ public class GenericDAO<T> {
     }
 
     public T update(T obj) {
-        if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto) {
+        if (obj instanceof Cliente || obj instanceof Fornecedor || obj instanceof Produto || obj instanceof Estoque) {
 
             loadEM();
             em.merge(obj);
@@ -112,10 +113,10 @@ public class GenericDAO<T> {
 
     public List<T> findAll(String tableName) throws SQLException {
         tableName = tableName.toLowerCase();
-        List<T> list = null;
+        List<T> list = new ArrayList<>();
         String sql = "";
 
-        if (tableName.equals("cliente") || tableName.equals("fornecedor") || tableName.equals("produto")) {
+        if (tableName.equals("cliente") || tableName.equals("fornecedor") || tableName.equals("produto") || tableName.equals("estoque")) {
 
             loadEM();
             sql = "SELECT " + tableName + " FROM " + StringUtils.capitalize(tableName) + " " + tableName;
@@ -151,7 +152,7 @@ public class GenericDAO<T> {
         return list;
     }
 
-    public void delete(T t) {
+    public void delete(T t) throws SQLException {
 
         if (t instanceof Cliente || t instanceof Fornecedor || t instanceof Produto) {
 
@@ -159,7 +160,6 @@ public class GenericDAO<T> {
             Object obj = null;
             if (t instanceof Cliente) {
                 obj = em.find(Cliente.class, ((Cliente) t).getCod());
-
             } else if (t instanceof Fornecedor) {
                 obj = em.find(Fornecedor.class, ((Fornecedor) t).getCod());
             } else if (t instanceof Produto) {
@@ -169,6 +169,14 @@ public class GenericDAO<T> {
             em.getTransaction().commit();
 
             em.close();
+
+        } else if (t instanceof Estoque) {
+            Estoque e = (Estoque) t;
+            loadConectionJDBC();
+            String sql = "DELETE FROM estoque WHERE cod = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, e.getCod());
+            stmt.executeUpdate();
 
         }
 
@@ -206,9 +214,22 @@ public class GenericDAO<T> {
                     v.getCliente().setCod(rs.getInt(7));
                     obj = v;
                 }
+            } else if (tableName.equals("estoque")) {
+                loadConectionJDBC();
+                String sql = "SELECT * FROM estoque WHERE produto_cod = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, cod);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    Estoque e = new Estoque();
+                    e.setCod(rs.getInt(1));
+                    e.setQtd(rs.getInt(2));
+                    e.setProduto((Produto) findByCod(cod, "produto"));
+                    obj = e;
+                }
+
             }
         }
         return (T) obj;
     }
-
 }

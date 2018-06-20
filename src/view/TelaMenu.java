@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author L
@@ -36,8 +40,6 @@ public class TelaMenu extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem_Exibir_Estoque_ = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem_Relatorio_Faturamento_ = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem_NovaVenda = new javax.swing.JMenuItem();
         jMenuItem_ExibirVenda = new javax.swing.JMenuItem();
@@ -83,9 +85,9 @@ public class TelaMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu3.setText("Exibir");
+        jMenu3.setText("Estoque");
 
-        jMenuItem_Exibir_Estoque_.setText("Estoque");
+        jMenuItem_Exibir_Estoque_.setText("Gerenciar");
         jMenuItem_Exibir_Estoque_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_Exibir_Estoque_ActionPerformed(evt);
@@ -93,18 +95,6 @@ public class TelaMenu extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem_Exibir_Estoque_);
         jMenu3.add(jSeparator1);
-
-        jMenu4.setText("Relatorio");
-
-        jMenuItem_Relatorio_Faturamento_.setText("Faturamento");
-        jMenuItem_Relatorio_Faturamento_.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_Relatorio_Faturamento_ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem_Relatorio_Faturamento_);
-
-        jMenu3.add(jMenu4);
 
         jMenuBar1.add(jMenu3);
 
@@ -168,14 +158,26 @@ public class TelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Sair_ActionPerformed
 
     private void jMenuItem_Cliente_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Cliente_ActionPerformed
-        TelaCliente tela = new TelaCliente();
-        tela.setVisible(true);
+        TelaCliente tela = null;
+        try {
+            tela = new TelaCliente();
+            tela.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         dispose();         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Cliente_ActionPerformed
 
     private void jMenuItem_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Produto_ActionPerformed
-        TelaProduto tela = new TelaProduto();
-        tela.setVisible(true);
+        TelaProduto tela = null;
+        try {
+            tela = new TelaProduto();
+            tela.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Produto_ActionPerformed
 
@@ -191,12 +193,6 @@ public class TelaMenu extends javax.swing.JFrame {
         dispose();   // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_ExibirVendaActionPerformed
 
-    private void jMenuItem_Relatorio_Faturamento_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Relatorio_Faturamento_ActionPerformed
-        TelaRelatorioFaturamento tela = new TelaRelatorioFaturamento();
-        tela.setVisible(true);
-        dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem_Relatorio_Faturamento_ActionPerformed
-
     private void jMenuItem_NovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_NovaVendaActionPerformed
         TelaVendaNova tela = new TelaVendaNova();
         tela.setVisible(true);
@@ -204,9 +200,15 @@ public class TelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_NovaVendaActionPerformed
 
     private void jMenuItem_Exibir_Estoque_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Exibir_Estoque_ActionPerformed
-        TelaEstoque tela = new TelaEstoque();
-        tela.setVisible(true);
-        dispose();         // TODO add your handling code here:
+        TelaEstoque tela;
+        try {
+            tela = new TelaEstoque();
+            tela.setVisible(true);
+            dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Exibir_Estoque_ActionPerformed
 
     /**
@@ -249,7 +251,6 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem_Cliente_;
@@ -259,7 +260,6 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Fornecedor_;
     private javax.swing.JMenuItem jMenuItem_NovaVenda;
     private javax.swing.JMenuItem jMenuItem_Produto_;
-    private javax.swing.JMenuItem jMenuItem_Relatorio_Faturamento_;
     private javax.swing.JMenuItem jMenuItem_Sair_;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables

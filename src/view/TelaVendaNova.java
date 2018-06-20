@@ -273,7 +273,11 @@ public class TelaVendaNova extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ADD_Venda_ActionPerformed
 
     private void jButton_ADD_Venda_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ADD_Venda_1ActionPerformed
-        addItem();
+        try {
+            addItem();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaVendaNova.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton_ADD_Venda_1ActionPerformed
 
     private void jButton_Finalizar_VendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Finalizar_VendaActionPerformed
@@ -422,7 +426,7 @@ public class TelaVendaNova extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_Valor_Total;
     // End of variables declaration//GEN-END:variables
 
-    private void addItem() {
+    private void addItem() throws SQLException {
         ProdutoController pc = new ProdutoController();
         if (!jTextField_COD_Produto_.getText().isEmpty()) {
             int codProduto = Integer.parseInt(jTextField_COD_Produto_.getText());

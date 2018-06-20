@@ -9,6 +9,8 @@ import controller.ClienteController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,9 +25,8 @@ public class TelaCliente extends javax.swing.JFrame {
 
     protected ClienteController controller = new ClienteController();
 
-    public TelaCliente() {
+    public TelaCliente() throws SQLException {
         initComponents();
-        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         preencheJTable(controller.findAllClients());
     }
 
@@ -225,7 +226,11 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Editar_Cliente_ActionPerformed
 
     private void jButton_Listar_Cliente_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Listar_Cliente_ActionPerformed
-        preencheJTable(controller.findAllClients());
+        try {
+            preencheJTable(controller.findAllClients());
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton_Listar_Cliente_ActionPerformed
 
     private void jButton_Excluir_Cliente_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Excluir_Cliente_ActionPerformed
@@ -284,7 +289,11 @@ public class TelaCliente extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCliente().setVisible(true);
+                try {
+                    new TelaCliente().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -6,6 +6,9 @@
 package view;
 
 import controller.UsuarioController;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Usuario;
 
@@ -104,14 +107,19 @@ public class TelaLog extends javax.swing.JFrame {
 
     private void jToggleButton_acessar_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_acessar_ActionPerformed
         UsuarioController control = new UsuarioController();
-        usuario = control.authenticate(jTextField_Login_.getText(), jPasswordField_Senha_.getText());
-        if (usuario != null) {
+        try {
+            usuario = control.authenticate(jTextField_Login_.getText(), jPasswordField_Senha_.getText());
+            if (usuario != null) {
             TelaMenu janela = new TelaMenu();
             janela.setVisible(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário ou senha inválido. Tente novamente!");
         }
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaLog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jToggleButton_acessar_ActionPerformed
 
     private void jTextField_Login_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_Login_ActionPerformed
