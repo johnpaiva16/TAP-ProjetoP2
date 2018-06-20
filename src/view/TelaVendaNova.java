@@ -1,6 +1,7 @@
 package view;
 
 import controller.ClienteController;
+import controller.EstoqueController;
 import controller.ProdutoController;
 import controller.VendaController;
 import java.sql.SQLException;
@@ -285,29 +286,30 @@ public class TelaVendaNova extends javax.swing.JFrame {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
+        double dinheiro = 0;
         try {
-            if (vc.finalizaVenda(venda) != null) {
-                double dinheiro = 0;
-                do {
-                    dinheiro = Double.parseDouble(JOptionPane.showInputDialog("Dinheiro pago: R$", ""));
-                    if (dinheiro < venda.getValorTotal()) {
-                        JOptionPane.showMessageDialog(rootPane, "O valor em dinheiro informado é menor que o valor total da venda. Tente novamente.");
-                    }
-                } while (dinheiro < venda.getValorTotal());
+            if (venda.getItens().size() > 0) {
                 if (JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja finalizar a venda?") == JOptionPane.YES_OPTION) {
+                    do {
+                        dinheiro = Double.parseDouble(JOptionPane.showInputDialog("Dinheiro pago: R$", ""));
+                        if (dinheiro < venda.getValorTotal()) {
+                            JOptionPane.showMessageDialog(rootPane, "O valor em dinheiro informado é menor que o valor total da venda. Tente novamente.");
+                        }
+
+                    } while (dinheiro < venda.getValorTotal());
                     venda.setData(dtf.format(LocalDate.now()));
                     venda.setHora(sdf.format(new Date()));
+                    if (vc.finalizaVenda(venda) != null) {
+                        JOptionPane.showMessageDialog(rootPane, "Troco: \nR$ " + (dinheiro - venda.getValorTotal()));
+                        JOptionPane.showMessageDialog(rootPane, "Venda finalizada com sucesso. \nCódigo da venda: " + venda.getCod());
 
-                    JOptionPane.showMessageDialog(rootPane, "Troco: \nR$ " + (dinheiro - venda.getValorTotal()));
-                    JOptionPane.showMessageDialog(rootPane, "Venda finalizada com sucesso. \nCódigo da venda: " + venda.getCod());
+                        limpa();
+                        venda = new Venda();
 
-                    limpa();
-                    venda = new Venda();
-
+                    }
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível finalizar uma venda sem nenhum item.");
-
+            }else{
+                 JOptionPane.showMessageDialog(rootPane, "Não é possível finalizar uma venda sem nenhum item.");
             }
 
         } catch (Exception e) {
@@ -427,16 +429,23 @@ public class TelaVendaNova extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void addItem() throws SQLException {
+        int qtdDigitada = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
+        EstoqueController ec = new EstoqueController();
         ProdutoController pc = new ProdutoController();
         if (!jTextField_COD_Produto_.getText().isEmpty()) {
             int codProduto = Integer.parseInt(jTextField_COD_Produto_.getText());
             Produto p = pc.findProdutoByCod(codProduto);
             if (p != null) {
-                ItemVenda item = new ItemVenda(p, 1);
-                venda.adicionaItem(item);
-                atualizaValoresTela();
-                preencheJTable(item);
-                jTextField_COD_Produto_.setText("");
+                ItemVenda item = new ItemVenda(p, 0);
+                if (ec.qtdSuficiente(codProduto, qtdDigitada)) {
+                    item.setQtd(qtdDigitada);
+                    venda.adicionaItem(item);
+                    atualizaValoresTela();
+                    preencheJTable(item);
+                    jTextField_COD_Produto_.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Não há produto suficiente no estoque.");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Atenção: O código de produto não está cadastrado.");
             }

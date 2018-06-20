@@ -26,6 +26,7 @@ public class Produto {
     private String descricao;
     @Column
     private double preco;
+ 
 
     public int getCod() {
         return cod;
@@ -50,6 +51,9 @@ public class Produto {
     public void setPreco(double preco) {
         this.preco = preco;
     }
+
+   
+    
     
     
 }

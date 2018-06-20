@@ -1,5 +1,6 @@
 package controller;
 
+import dao.EstoqueDAO;
 import dao.GenericDAO;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,6 +16,7 @@ public class VendaController {
 
     private final String TABLE_NAME = "venda";
     private final GenericDAO dao = new GenericDAO();
+    private final EstoqueController ec = new EstoqueController();
 
     public Venda finalizaVenda(Venda venda) throws EntityExistsException, SQLException {
         if (!venda.getItens().isEmpty()) {
@@ -27,6 +29,7 @@ public class VendaController {
             venda.setCliente(c);
             venda = (Venda) dao.save(venda);
             if (venda.getCod() != 0) {
+                ec.subtraiQtdVendida(venda.getItens());
                 return venda;
             }
         }
@@ -40,4 +43,5 @@ public class VendaController {
     public Venda findVendaByCod(int cod) throws SQLException {
         return (Venda) dao.findByCod(cod, TABLE_NAME);
     }
+    
 }

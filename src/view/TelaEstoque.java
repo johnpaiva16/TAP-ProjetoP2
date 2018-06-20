@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import model.Estoque;
 
@@ -34,7 +35,7 @@ public class TelaEstoque extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField_COD_Produto_ = new javax.swing.JTextField();
         jButton_Pesquisa_Produto_ = new javax.swing.JButton();
-        jButton_Listar_Produto_ = new javax.swing.JButton();
+        jButton_EntradaEstoque = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Estoque_ = new javax.swing.JTable();
@@ -49,24 +50,25 @@ public class TelaEstoque extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jLabel1.setText("COD. Produto:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Cod. Produto");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 14, 80, 14);
+        jLabel1.setBounds(10, 70, 110, 30);
         getContentPane().add(jTextField_COD_Produto_);
-        jTextField_COD_Produto_.setBounds(86, 11, 50, 20);
+        jTextField_COD_Produto_.setBounds(110, 70, 140, 30);
 
         jButton_Pesquisa_Produto_.setText("Pesquisar");
         getContentPane().add(jButton_Pesquisa_Produto_);
-        jButton_Pesquisa_Produto_.setBounds(150, 10, 79, 30);
+        jButton_Pesquisa_Produto_.setBounds(270, 70, 79, 30);
 
-        jButton_Listar_Produto_.setText("Atualizar");
-        jButton_Listar_Produto_.addActionListener(new java.awt.event.ActionListener() {
+        jButton_EntradaEstoque.setText("Entrada de produto");
+        jButton_EntradaEstoque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_Listar_Produto_ActionPerformed(evt);
+                jButton_EntradaEstoqueActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Listar_Produto_);
-        jButton_Listar_Produto_.setBounds(260, 10, 100, 30);
+        getContentPane().add(jButton_EntradaEstoque);
+        jButton_EntradaEstoque.setBounds(840, 650, 160, 30);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Estoque");
@@ -1083,7 +1085,7 @@ public class TelaEstoque extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_Estoque_);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 110, 990, 450);
+        jScrollPane1.setBounds(10, 130, 990, 490);
 
         jButton_Listar.setText("Listar");
         jButton_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -1132,16 +1134,23 @@ public class TelaEstoque extends javax.swing.JFrame {
         dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_VoltarMenu_ActionPerformed
 
-    private void jButton_Listar_Produto_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Listar_Produto_ActionPerformed
-        TelaEstoque tela = null;
+    private void jButton_EntradaEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EntradaEstoqueActionPerformed
+        
+        TelaEstoqueEntrada tela = new TelaEstoqueEntrada(new JFrame(), true);
+       
+        int row = jTable_Estoque_.getSelectedRow();
+        Estoque e = null;
         try {
-            tela = new TelaEstoque();
+           e = controller.findByCodProdutoEstoque((int) jTable_Estoque_.getValueAt(row, 0));
+           tela.getjTextField_COD_Produto_().setText(String.valueOf(e.getProduto().getCod()));
+           tela.getjTextField_Descricao_Produto_().setText(String.valueOf(e.getProduto().getDescricao()));
+           tela.setLocationRelativeTo(null);
+           tela.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(TelaEstoque.class.getName()).log(Level.SEVERE, null, ex);
         }
-        tela.setVisible(true);
-        dispose();  // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_Listar_Produto_ActionPerformed
+        
+    }//GEN-LAST:event_jButton_EntradaEstoqueActionPerformed
 
     private void jButton_ListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ListarActionPerformed
         preencheJTable();
@@ -1206,8 +1215,8 @@ public class TelaEstoque extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_EntradaEstoque;
     private javax.swing.JButton jButton_Listar;
-    private javax.swing.JButton jButton_Listar_Produto_;
     private javax.swing.JButton jButton_Pesquisa_Produto_;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel9;
@@ -1243,4 +1252,5 @@ public class TelaEstoque extends javax.swing.JFrame {
         }
 
     }
+    
 }
